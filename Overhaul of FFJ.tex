@@ -1,0 +1,143 @@
+\documentclass[runningheads,a4paper]{llncs}
+\usepackage[nolist,nohyperlinks]{acronym}
+
+\acrodef{FOP}[FOP]{Feature Oriented Programming}
+\acrodef{ITP}[ITP]{Interactive Theorem Prover}
+\acrodef{FJ}[FJ]{Featherweight Java}
+\acrodef{FFJ}[FFJ]{Feature Featherweight Java}
+
+\usepackage{amssymb}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage[misc]{ifsym}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor=blue,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+\usepackage{url}
+
+
+\urldef{\mailsa}\path|abreu223@gmail.com|    
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+
+\begin{document}
+
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Mechanization and Overhaul of Feature Featherweight Java}
+
+% a short form should be given in case it is too long for the running head
+\titlerunning{Mechanization and Overhaul of Feature Featherweight Java}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Pedro Abreu\textsuperscript{(\Letter)}%
+%\thanks{Please note that the LNCS Editorial assumes that all authors have used
+%the western naming convention, with given names preceding surnames. This determines
+%the structure of the names in the running heads and the author index.}%
+\and Rodrigo Bonif\'acio}
+%
+\authorrunning{Lecture Notes in Computer Science: Authors' Instructions}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{Departamento de Ci\^encia da Computa\c{c}\~ao, Universidade de Bras\'{\i}lia, Brazil\\
+\mailsa}
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+\toctitle{Lecture Notes in Computer Science}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+
+\begin{abstract}
+Specifying a language in an \ac{ITP} is seldom faithful
+to its original pen-and-paper specification. However the process of mechanizing the
+language and type safety proofs might unearth insights for clearer overall specification.
+In the present we discuss the process of extending a mechanization of \textit{\ac{FJ}}
+with \textit{\ac{FFJ}} in \texttt{Coq} and how that lead us to a
+clearer, unambiguous and equivalent syntax and semantics while keeping the proofs as simple as possible.
+This is also the first mechanization of a \textit{\ac{FOP}} language to date.
+
+
+\keywords{Language Design, Language Semantics, Java, FOP, Coq}
+\end{abstract}
+
+\section{Introduction}
+\textit{\acf{FOP}} \cite{prehofer_feature-oriented_1997} is a design methodology and tools for program synthesis \cite{batory_tutorial_2003}.
+It aims at the modularization of software systems in terms of features. A \textit{feature}
+implements a stakeholder's requirement and is typically an increment in program functionality.
+When added to a software system, a feature introduce new structures, such as classes and methods,
+and refines existing ones, such as extending methods bodies.
+
+There are several \ac{FOP} languages and tools that provides varying mechanisms
+that support the specification and composition of features properly, such as AHEAD \cite{batory_feature-oriented_2004},
+FSTComposer \cite{apel_superimposition:_2008}, FeatureC++ \cite{apel_featurec++:_2005}, and more recently Delta-Oriented Programming \cite{schaefer_delta-oriented_2010}. \ac{FOP} has also been used to develop
+\textit{product-lines} in disparate domains, including compilers for extensible Java dialects 
+\cite{batory_jts:_1998}, fire support simulators for U.S. Army \cite{batory_achieving_2000}, high-performance network
+\cite{batory_design_1992}, and program verification tools \cite{kurt_stirewalt_component-based_2001}.
+
+Due to the relevance of \ac{FOP}, falar sobre lps...
+
+Several attempts to formalize the type system of \ac{FOP} languages have been made. %Citar todas formalizações de delta oriented programmaning
+For instance,  \textit{\acf{FFJ}} \cite{apel_feature_2008} is a proposed type system for \ac{FOP} languages and tools, 
+which is developed on top of \textit{\acf{FJ}} \cite{igarashi_featherweight_2001}
+to provide a simple syntax and semantics conforming with common \ac{FOP} languages, 
+incorporating constructs for feature composition. %Falar de alguma formalizacao de DOP.
+
+Nevertheless, none of the existing efforts for specifying \ac{FOP} type system have been mechanized to date.
+Which means that we have no formal guarantees that the specification is type-safe other than peer review. 
+Such a method is known for enabling small errors to remain hidden for several years, specially as the proofs grow larger and harder to follow.
+The idea behind mechanization is to check these proofs with the aid of a computer, reducing significantly the risk of errors, while 
+taking full use of automation for the tedious or straightforward steps of the proof.
+
+In this paper, we present an implementation of \ac{FJ} which we extend with \ac{FFJ} using \texttt{Coq}.
+The process of scrutinizing \ac{FFJ} and defining \textit{unambigously} its semantics in \texttt{Coq} lead us to some language specification and implementation improvements. 
+Altogether these improvements makes more natural the transition between \ac{FJ} and \ac{FFJ}, simplifying the auxiliary functions used in the language specification as well as the type safety proofs and lemmas. 
+Not only to be easier to increment \ac{FJ} syntax and semantics, but also easier increment its proofs leading to a clearer and simpler specification of \textit{FFJ}.
+Hence we can sumarize the main contribution of this paper as follows:
+\begin{enumerate}
+    \item The first mechanization of a FOP type system
+    \item A better specification of FFJ, which may help other researchers to reason about software product lines properties.
+    \item A report about the benefits of using a proof assistant 
+    to revamp an existing specification of a non-mechanized language type system.
+\end{enumerate}
+
+This paper is organized as follows: in the Section~\ref{seq:coq} we give a brief introduction to \texttt{Coq} Section 3 briefly introduces software product lines, \ac{FOP} and \ac{FFJ},
+Section 4 formally describes our revamped \ac{FFJ} and states the lemmas needed to preserve \ac{FJ} increment to \ac{FFJ} type safety, Section 5 discuss the implications of these results to the product line research and Section 6 
+is the conclusion and shows possible future works.
+
+\bibliography{bibliography}{}
+\bibliographystyle{splncs03}
+
+\section{Coq}\label{seq:coq}
+Lorem Ipsum
+
+
+%\begin{thebibliography}{5}
+%\end{thebibliography}
+
+%esta parte fica para outra sesssao
+%The main idea of \ac{FFJ} is to provide a timeline of increment to \ac{FJ} classes and methods called refinements. With that in hand, job of
+%proving that \ac{FFJ} maintain \ac{FJ} type safety comes down to showing that the refinements respects former typing rules. And that job is 
+%fairly easy given that \ac{FFJ} syntax does not affect \ac{FJ} typing rules.
+
+\end{document}
