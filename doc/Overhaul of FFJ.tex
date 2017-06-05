@@ -1,5 +1,11 @@
 \documentclass[runningheads,a4paper]{llncs}
 \usepackage[nolist,nohyperlinks]{acronym}
+\usepackage{mathpartir}
+\usepackage{listings}
+\usepackage{cleveref}
+%\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{amssymb}
 
 \acrodef{FOP}[FOP]{Feature Oriented Programming}
 \acrodef{ITP}[ITP]{Interactive Theorem Prover}
@@ -121,12 +127,28 @@ Hence we can sumarize the main contribution of this paper as follows:
     to revamp an existing specification of a non-mechanized language type system.
 \end{enumerate}
 
-This paper is organized as follows: in the Section~\ref{seq:coq} we give a brief introduction to \texttt{Coq} Section 3 briefly introduces software product lines, \ac{FOP} and \ac{FFJ},
-Section 4 formally describes our revamped \ac{FFJ} and states the lemmas needed to preserve \ac{FJ} increment to \ac{FFJ} type safety, Section 5 discuss the implications of these results to the product line research and Section 6 
-is the conclusion and shows possible future works.
+This paper is organized as follows: in the Section~\ref{seq:coq} we give a brief introduction to \texttt{Coq} 
+Section~\ref{seq:fop} briefly introduces software product lines, \ac{FOP} and \ac{FFJ},
+Section~\ref{seq:ffj} formally describes our revamped \ac{FFJ} and states the lemmas needed to preserve \ac{FJ} increment to \ac{FFJ} type safety, 
+Section~\ref{seq:impl} discuss the implications of these results to the product line research,
+Section~\ref{seq:related} discuss related works and
+Section~\ref{seq:conclusion} is the conclusion and shows possible future works.
 
-\section{Coq}\label{seq:coq}
+\section{Introduction to Coq}\label{seq:coq}
 Lorem Ipsum
+
+\section{Feature Oriented Programming}\label{seq:fop}
+
+\section{Feature Featherweight Java}\label{seq:ffj}
+\input{sections/feature_featherweight_java}
+
+
+\section{Implications}\label{seq:impl}
+
+\section{Related Work}\label{seq:related}
+
+\section{Conclusion}\label{seq:conclusion}
+
 
 \bibliography{bibliography}{}
 \bibliographystyle{splncs03}
