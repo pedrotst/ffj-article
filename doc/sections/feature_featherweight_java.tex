@@ -15,19 +15,19 @@ declarations and expressions is given at Table~\ref{abstractsyntax}.
 
 %\begin{center}
 \begin{table}[ht!]
-    \begin{tabular}{ccl}
-            \texttt{CD}&~::= & \texttt{class\ C~extends~C\ \{\={C} \ \={f}; K \={M}\}}\\ 
-            \texttt{CR}&~::= & \texttt{refines~class\ C\ \{\={C} \ \={f}; KD \={M}\}}\\ 
-            \vspace{0.8mm}
-            \texttt{KD} &~::= &
+    \centering
+    \begin{tabular}{|ccl|}
+        \hline
+        \texttt{CD}&~::= & \texttt{class\ C~extends~C\ \{\={C} \ \={f}; K \={M}\}}\\ 
+        \texttt{CR}&~::= & \texttt{refines~class\ C\ \{\={C} \ \={f}; KD \={M}\}}\\ 
+        \texttt{KD} &~::= &
         \texttt{C~(\={C}~\={f})\
         \{super~(\={f});~this.\={f}=\={f};\}}\\
-            \vspace{0.8mm}
         \texttt{MD} &~::= & \texttt{C~m~(\={C}~\={x})\ \{return~e;\}}\\
         \texttt{MR} &~::= & \texttt{refines C~m~(\={C}~\={x})\ \{return~e;\}}\\
-            \vspace{0.8mm}
         \texttt{e} &~::= & \texttt{x~|~e.f~|~e.m~(\={e})~|~new~C~(\={e})~|~(C)~e} \\
         \texttt{v} &~::= & \texttt{new~C~(\={e})} \\
+        \hline
     \end{tabular} \\
     \vspace{1.5mm}
     \caption{\ac{FFJ} Syntax}
@@ -43,78 +43,58 @@ $f_{1},\ldots,f_{n}$~(and similary for $\bar{C},\ \bar{x},\
 \bar{e}$ etc.) and $\bar{M}$ as a shorthand for
 $M_{1}\ldots M_{n}$~(with no commas).
 
-A class table CT is a mapping from class names $C$ to class declarations
-$L$. A program is a pair (CT, $e$) of a class table and an
-expression. In FJ, every class has a superclass declared with extends, with
-the exception of \texttt{Object}, which is taken as a distinguished class name
-whose definition does \textit{not} appear in the class table. The class table
-contains the subtype relation between all the classes. From the
-Table~\ref{subtyping}, one can infer that subtyping is the reflexive and
-transitive closure of the immediate subclass ralation given by the
-\texttt{extends} clauses in CT\@. 
-
 \begin{table}[ht!]
 	\centering
-    \caption{Subtyping}
     \label{subtyping}
-	\begin{tabular}{c@{\hskip 1in}c@{\hskip 1in}c}
-		$C~<:~C$ & 
-		\inferrule{C <: D \qquad C <: E}
-		{C <: E} &
-		\inferrule{class~C~extends~D~\{~\ldots~\}}
-		{C~<:~D} 
+	\begin{tabular}{|c@{\hskip 1in}c@{\hskip 1in}c|}
+        \hline
+		\texttt{C~<:~C} & 
+		\inferrule{\texttt{C <: D} \qquad \texttt{C <: E}}
+		{\texttt{C~<:~E}} &
+		\inferrule{\texttt{class~C~extends~D~\{~\ldots~\}}}
+		{\texttt{C~<:~D}} \\
+        \hline
 	\end{tabular}
-\vspace{1.5mm}
+    \vspace{1.5mm}
+    \caption{Subtyping}
 \end{table}
-
-The function $fields$ defined at Table~\ref{field} returns a list of all
-the fields declared at the current class definition, as well as the fields
-declared at the superclass of it. It returns an empty list in the case of
-\texttt{Object}.
-
 \begin{table}[ht!]
 	\centering
-    \caption{Field lookup}
-    \label{field}
 	\def\arraystretch{2.5}
-	\begin{tabular}{c}
+	\begin{tabular}{|c|}
+        \hline
 		$fields~($\texttt{Object}$)=\bullet$ \\
 		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
 		\bar{M}\} \qquad fields~(D)=\bar{D}\ \bar{g}}
-		{fields~(C)=\bar{D}\ \bar{g},\ \bar{C}\ \bar{f}}
+		{fields~(C)=\bar{D}\ \bar{g},\ \bar{C}\ \bar{f}}\\
+        \hline
 	\end{tabular}
-\vspace{1.5mm}
+    \label{field}
+    \caption{Field lookup}
+    \vspace{1.5mm}
 \end{table}
 
-The method declaration $D\ m~(\bar{C}\ \bar{x})\ \{return\ e;\}$
-introduces a method name $m$ with result type D and parameters
-$\bar{x}$ of types $\bar{C}$. The body of the method is the single
-statement $return e;$. The variables ${x}$ and the special
-variable ${this}$ are bound in ${e}$. The rules that define these
-functions are ilustrated in Tables~\ref{mtypelookup} and~\ref{mbodylookup}.
 
 \begin{table}[h!]
 	\centering
 	\def\arraystretch{3}
-    \caption{Method type lookup}
-    \label{mtypelookup}
-	\begin{tabular}{c}
+	\begin{tabular}{|c|}
+        \hline
 		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
-		\bar{M}\} \qquad B\ m~(\bar{B}\ \bar{x})\{return\
-	e;\}\in~\bar{M}} {mtype~(m,~C)=\bar{B}\rightarrow~B} \\
-
+		\bar{M}\} \qquad B\ m~(\bar{B}\ \bar{x})\{return\ e;\}\in~\bar{M}} {mtype~(m,~C)=\bar{B}\rightarrow~B} \\
 		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
 		\bar{M}\} \qquad m\notin~\bar{M}}
 		{mtype~(m,~C)=mtype~(m,~D)} \\
+        \hline
 	\end{tabular}
-\vspace{1.5mm}
+    \vspace{1.5mm}
+    \label{mtypelookup}
+    \caption{Method type lookup}
 \end{table}
 
 \begin{table}[h!]
 	\centering
-    \caption{Method body lookup}
 	\def\arraystretch{3}
-    \label{mbodylookup}
 	\begin{tabular}{c}
 		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
 		\bar{M}\} \qquad B\ m~(\bar{B}\ \bar{x})\{return\
@@ -125,25 +105,11 @@ functions are ilustrated in Tables~\ref{mtypelookup} and~\ref{mbodylookup}.
 		\bar{M}\} \qquad m\notin~\bar{M}}
 		{mbody~(m,~C)=mbody~(m,~D)} \\
 	\end{tabular}
+    \label{mbodylookup}
+    \caption{Method body lookup}
 \vspace{1.5mm}
 \end{table}
 
-The given class table is assumed to satisfy the following conditions:
-\begin{itemize}
-	\item $ CT~(C)=class\ C\ldots$ for every $C\in dom(CT)$
-	\item \texttt{Object}$\notin dom(CT)$
-	\item for every class name $C$~(except \texttt{Object}) appearing anywhere
-		in CT, we have $C\in dom(CT)$
-	\item there are no cycles in the subtype relation induced by CT, i.e., the
-		relation <: is antisymmetric
-\end{itemize}
-
-\subsection{Typing}
-
-The typing rules for expressions are in Table~\ref{exptyping}. An environment
-$\Gamma$ is a finite mapping from variables to types, written $\bar{c}:\bar{C}$.
-The typing judgment for expressions has the form $\Gamma \vdash e: C$, read ``in
-the environment $\Gamma$, expression $e$ has type $C$''.
 
 \begin{table}[h!]
 	\centering
@@ -179,23 +145,6 @@ the environment $\Gamma$, expression $e$ has type $C$''.
 \vspace{1.5mm}
 \label{exptyping}
 \end{table}
-
-\subsection{Computation}
-The reduction relation is of ther form $e \rightarrow e'$, read ``expression
-$e$ reduces to expression $e'$ in one step'', We write $\rightarrow *$ for the
-reflexisive and transitive closure of $\rightarrow$.
-
-The reduction rules are given in~\ref{expcomput}. There are three reduction
-rules, one for field acess, one for method invocation, and one for casting.
-These were already explained above. We write $[\bar{d}=\bar{x}, e=y]e_0$ for
-the result of replacing $x_1$ by $d_1$, $x_2$ by $d_2, \dots, x_n$ by $d_n$, and $y$ by $e$ in
-the expression $e_0$.
-
-Notice again that with the absense of side effects, there is no need of stack
-or heap for variable binding. 
-
-The reduction rules may be applied at any point in an expression, so we also
-need the obvious congruence rules.
 
 \begin{table}[h!]
 	\centering
@@ -234,4 +183,64 @@ need the obvious congruence rules.
 \vspace{1.5mm}
 \label{expcongr}
 \end{table}
+
+
+
+A class table CT is a mapping from class names $C$ to class declarations
+$L$. A program is a pair (CT, $e$) of a class table and an
+expression. In FJ, every class has a superclass declared with extends, with
+the exception of \texttt{Object}, which is taken as a distinguished class name
+whose definition does \textit{not} appear in the class table. The class table
+contains the subtype relation between all the classes. From the
+Table~\ref{subtyping}, one can infer that subtyping is the reflexive and
+transitive closure of the immediate subclass ralation given by the
+\texttt{extends} clauses in CT\@. 
+
+
+The function $fields$ defined at Table~\ref{field} returns a list of all
+the fields declared at the current class definition, as well as the fields
+declared at the superclass of it. It returns an empty list in the case of
+\texttt{Object}.
+
+
+The method declaration $D\ m~(\bar{C}\ \bar{x})\ \{return\ e;\}$
+introduces a method name $m$ with result type D and parameters
+$\bar{x}$ of types $\bar{C}$. The body of the method is the single
+statement $return e;$. The variables ${x}$ and the special
+variable ${this}$ are bound in ${e}$. The rules that define these
+functions are ilustrated in Tables~\ref{mtypelookup} and~\ref{mbodylookup}.
+
+he given class table is assumed to satisfy the following conditions:
+\begin{itemize}
+	\item $ CT~(C)=class\ C\ldots$ for every $C\in dom(CT)$
+	\item \texttt{Object}$\notin dom(CT)$
+	\item for every class name $C$~(except \texttt{Object}) appearing anywhere
+		in CT, we have $C\in dom(CT)$
+	\item there are no cycles in the subtype relation induced by CT, i.e., the
+		relation <: is antisymmetric
+\end{itemize}
+
+\subsection{Typing}
+
+The typing rules for expressions are in Table~\ref{exptyping}. An environment
+$\Gamma$ is a finite mapping from variables to types, written $\bar{c}:\bar{C}$.
+The typing judgment for expressions has the form $\Gamma \vdash e: C$, read ``in
+the environment $\Gamma$, expression $e$ has type $C$''.
+
+\subsection{Computation}
+The reduction relation is of ther form $e \rightarrow e'$, read ``expression
+$e$ reduces to expression $e'$ in one step'', We write $\rightarrow *$ for the
+reflexisive and transitive closure of $\rightarrow$.
+
+The reduction rules are given in~\ref{expcomput}. There are three reduction
+rules, one for field acess, one for method invocation, and one for casting.
+These were already explained above. We write $[\bar{d}=\bar{x}, e=y]e_0$ for
+the result of replacing $x_1$ by $d_1$, $x_2$ by $d_2, \dots, x_n$ by $d_n$, and $y$ by $e$ in
+the expression $e_0$.
+
+Notice again that with the absense of side effects, there is no need of stack
+or heap for variable binding. 
+
+The reduction rules may be applied at any point in an expression, so we also
+need the obvious congruence rules.
 
