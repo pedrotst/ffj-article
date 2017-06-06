@@ -15,20 +15,22 @@ declarations and expressions is given at Table~\ref{abstractsyntax}.
 
 %\begin{center}
 \begin{table}[ht!]
-    \caption{Abstract Syntax}
     \begin{tabular}{ccl}
-            $L$&~::= & $class\ C~extends~C\ \{\bar{C} \ \bar{f};\ K\
-        \bar{M}\}$\\ 
+            \texttt{CD}&~::= & \texttt{class\ C~extends~C\ \{\={C} \ \={f}; K \={M}\}}\\ 
+            \texttt{CR}&~::= & \texttt{refines~class\ C\ \{\={C} \ \={f}; KD \={M}\}}\\ 
             \vspace{0.8mm}
-            $K$&~::= &
-        $C~(\bar{C}~\bar{f})\
-        \{super~(\bar{f});~this.\bar{f}=\bar{f};\}$\\
+            \texttt{KD} &~::= &
+        \texttt{C~(\={C}~\={f})\
+        \{super~(\={f});~this.\={f}=\={f};\}}\\
             \vspace{0.8mm}
-        $M$&~::= & $C~m~(\bar{C}~\bar{x})\ \{return~e;\}$\\
+        \texttt{MD} &~::= & \texttt{C~m~(\={C}~\={x})\ \{return~e;\}}\\
+        \texttt{MR} &~::= & \texttt{refines C~m~(\={C}~\={x})\ \{return~e;\}}\\
             \vspace{0.8mm}
-        $e$&~::= & $x~|~e.f~|~e.m~(\bar{e})~|~new~C~(\bar{e})~|~(C)~e$ \\
+        \texttt{e} &~::= & \texttt{x~|~e.f~|~e.m~(\={e})~|~new~C~(\={e})~|~(C)~e} \\
+        \texttt{v} &~::= & \texttt{new~C~(\={e})} \\
     \end{tabular} \\
     \vspace{1.5mm}
+    \caption{\ac{FFJ} Syntax}
     \label{abstractsyntax}
 \end{table}
 %\end{center}
