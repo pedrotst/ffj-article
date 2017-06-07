@@ -12,7 +12,7 @@ the modified rules highlited with \hlmod{shaded yellow boxes} and new rules high
             \texttt{CD}~::= \hfill \textit{class declarations:}\\
             \quad \texttt{class\ C~extends~C\ \{\={C} \={f}; K \={M}\}} \\  \\
             \hlnew{\texttt{CR}~::=} \hfill \textit{class refinements:}\\
-            \quad \hlnew{\texttt{refines~class C \{\={C} \={f}; KD \={M} \={MR}\}}} \\ \\
+            \quad \hlnew{\texttt{refines~class R \{\={C} \={f}; KD \={M} \={MR}\}}} \\ \\
             \texttt{K}~::=  \hfill\textit{constructor declarations:}\\
             \quad \texttt{C(\={C}~\={f})\{super(\={f});~this.\={f}=\={f};\}}\\\\
             \hlnew{\texttt{KD}~::=} \hfill\textit{constructor refinements:} \\
@@ -40,35 +40,48 @@ the modified rules highlited with \hlmod{shaded yellow boxes} and new rules high
 
 
 The syntax of \ac{FFJ} constructs is given at Table~\ref{abstractsyntax}. The metavariables
-\texttt{A B C D} and \texttt{E} ranges over class names, \texttt{f} and \texttt{g} ranges over
-field names; \texttt{m} ranges method name; \texttt{x} ranges over variable and \texttt{v} ranges over
-values. We assume a that the set of variables includes the special variable \texttt{this}, which
+\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} and \texttt{E} ranges over class names, \texttt{f} and \texttt{g} ranges over
+field names; \texttt{m} ranges method name; \texttt{x} ranges over variable, \texttt{v} ranges over
+values, \texttt{feat} ranges over feature names and 
+\texttt{R}, \texttt{S} and \texttt{P} ranges over refinement name, which are represented by \texttt{C@feat}.
+We assume a that the set of variables includes the special variable \texttt{this}, which
 cannot be used as the name of an argument of a method.
 
 We write \texttt{\=f} as a shorthand for a possible empty sequence \texttt{f\textsubscript1}, \dots, \texttt{f\textsubscript{n}} 
 and similarly for \texttt{\=C}, \texttt{\=x}, \texttt{\=e}, etc. We abbreviate the operations on pairs of sequences
 ``\texttt{\=C~\=f}'' for ``\texttt{C\textsubscript1~f\textsubscript1},\dots, \texttt{C\textsubscript{n}~f\textsubscript{n}}''
 and ``\texttt{this.\=f=\=f;}'' as a shorthand for 
-``\texttt{this.\=f\textsubscript1=\=f\textsubscript1;} \dots, \texttt{this.\=f\textsubscript{n}=\=f\textsubscript{n};}''
+``\texttt{this.\=f\textsubscript1=\=f\textsubscript1;} \dots, \texttt{this.\=f\textsubscript{n}=\=f\textsubscript{n};}''.
+We write empty sequence as $\bullet$.
 
-An \ac{FFJ} program consists
-of a set of class and refinement declaration as well as an expression. A class declaration
-\texttt{CD} contains a list \texttt{\=C \=f} of fields, a constructor declaration \texttt{K},
-and a list \texttt{\={M}} of method declarations. A class refinement \texttt{CR} contains
-a list \texttt{\=C \=f} of fields, a constructor refinement \texttt{KR}, a list \texttt{\=M}
-of method declaretions ane a list \texttt{\={MR}} of method refinements. The declaration of a 
-class refinement is preceded by the keyword \texttt{refines}. Method declaration or a method 
+
+A class declaration \texttt{class\ C~extends~D\ \{\={C} \={f}; K \={M}\}} 
+introduces a class \texttt{C} with superclass \texttt{D}. This class has fields \texttt{\=f}
+of type \texttt{C}, a constructor \texttt{K} and methdos \texttt{\=M}. The fields of class \texttt{C}
+is \texttt{\=f} added to the fields of its superclass \texttt{D}, all of them must have distinct names.
+Methods, in the other, hand may override another superclass method with the same name.
+Method override in both \ac{FJ} \ac{FFJ} is basically method rewrite. 
+Methods are uniquely identified by its name, i.e. overload is not supported.
+%como nao tem como explicar as fields de class refinement aqui, vamos deixar pra definir tudo com calma somente na
+%sessao de lookup functions
+
+A class refinement \texttt{refines~class~R~\{\={C}~\={f};~KD~\={M}~\={MR}\}}
+introduces a refinement of the class \texttt{C}. 
+This refinement contains the fields  \texttt{\=f} of type \texttt{\=C}, 
+a constructor refinement \texttt{KR}, methods declarations \texttt{\=M} and method refinements \texttt{\={MR}}.
+Like class declarations, the fields of a class refinement R are added to the fields of its predecessor, which
+is explained in more detail in \ref{subsec:lookup}.
+
+Method declaration or \texttt{refines C~m~(\={C}~\={x}) \{return~e;\}}
 refinement \texttt{m} both expects arguments \texttt{\=x} of type \texttt{\=C}, contains the
 body \texttt{return e}
 
-The variable \texttt{this} is assumed to be included in the set of variables, but
-it cannot be used as the name of an argument to a method. 
+A class table CT is a mapping from class names \texttt{C} to class declarations \texttt{CD}.
+A refinement table RT is a mapping from refinement name \texttt{C~@~feat} to refinement declarations.
+An \ac{FFJ} program consists of a triple (CT, RT, \texttt{e}) of a class table, a refinement table
+and an expression. Throughout the rest of the paper the CT and the RT are assumed to be always fixed to lighten the notation.
 
-It is written $\bar{f}$ as a shorthand for a possibly empty sequence
-$f_{1},\ldots,f_{n}$~(and similary for $\bar{C},\ \bar{x},\
-\bar{e}$ etc.) and $\bar{M}$ as a shorthand for
-$M_{1}\ldots M_{n}$~(with no commas).
-
+\subsection{Lookup Functions}\label{subsec:lookup}
 \begin{table}[!h]
     \raggedright \textit{Predecessor}\\
 	\centering
@@ -220,32 +233,6 @@ $M_{1}\ldots M_{n}$~(with no commas).
 \end{table}
 
 
-
-A class table CT is a mapping from class names $C$ to class declarations
-$L$. A program is a pair (CT, $e$) of a class table and an
-expression. In FJ, every class has a superclass declared with extends, with
-the exception of \texttt{Object}, which is taken as a distinguished class name
-whose definition does \textit{not} appear in the class table. The class table
-contains the subtype relation between all the classes. From the
-Table~\ref{subtyping}, one can infer that subtyping is the reflexive and
-transitive closure of the immediate subclass ralation given by the
-\texttt{extends} clauses in CT\@. 
-
-
-The function $fields$ defined at Table~\ref{field} returns a list of all
-the fields declared at the current class definition, as well as the fields
-declared at the superclass of it. It returns an empty list in the case of
-\texttt{Object}.
-
-
-The method declaration $D\ m~(\bar{C}\ \bar{x})\ \{return\ e;\}$
-introduces a method name $m$ with result type D and parameters
-$\bar{x}$ of types $\bar{C}$. The body of the method is the single
-statement $return e;$. The variables ${x}$ and the special
-variable ${this}$ are bound in ${e}$. The rules that define these
-functions are ilustrated in Tables~\ref{mtypelookup} and~\ref{mbodylookup}.
-
-he given class table is assumed to satisfy the following conditions:
 \begin{itemize}
 	\item $ CT~(C)=class\ C\ldots$ for every $C\in dom(CT)$
 	\item \texttt{Object}$\notin dom(CT)$
