@@ -1,34 +1,29 @@
 %\section{Feature Featherweight Java}\label{seq:ffj}
 
 \subsection{Syntax}
-The Syntax of \ac{FFJ} is a straightfoward extension of \ac{FJ}. Due to the lack
+The Syntax of \ac{FFJ} is a straightfoward \ac{FOP} extension of \ac{FJ}. Due to the lack
 of space we will not present the formal definition \ac{FJ}, but instead we follow
 the same scheme of the \ac{FFJ} original definition in \cite{apel_feature_2008} and present
 the modified rules highlited with \hlmod{shaded yellow boxes} and new rules highlighted by
 \hlnew{shaded purple boxes}.
 
-
-The abstract syntax of FJ class declarations, constructor declarations, method
-declarations and expressions is given at Table~\ref{abstractsyntax}.
-
-%\begin{center}
-\begin{table}[ht!]
+\begin{table}[!ht]
     \begin{tabularx}{.62\textwidth}{l|}
             \texttt{CD}~::= \hfill \textit{class declarations:}\\
             \quad \texttt{class\ C~extends~C\ \{\={C} \={f}; K \={M}\}} \\  \\
             \hlnew{\texttt{CR}~::=} \hfill \textit{class refinements:}\\
-            \quad \hlnew{\texttt{refines~class C \{\={C} \={f}; KD \={M}\}}} \\ \\
-            \texttt{KD}~::=  \hfill\textit{constructor declarations:}\\
+            \quad \hlnew{\texttt{refines~class C \{\={C} \={f}; KD \={M} \={MR}\}}} \\ \\
+            \texttt{K}~::=  \hfill\textit{constructor declarations:}\\
             \quad \texttt{C(\={C}~\={f})\{super(\={f});~this.\={f}=\={f};\}}\\\\
-            \hlnew{\texttt{KR}~::=} \hfill\textit{constructor refinements:} \\
+            \hlnew{\texttt{KD}~::=} \hfill\textit{constructor refinements:} \\
             \quad \hlnew{\texttt{refines~C(\={E}~\={h}, \={C} \={f})\{original(\={f}); this.\={f}=\={f};\}}} \\\\
-            \texttt{MD}~::= \hfill\textit{method declarations:}\\
+            \texttt{M}~::= \hfill\textit{method declarations:}\\
             \quad \texttt{C~m~(\={C}~\={x})\ \{return~e;\}}
     \end{tabularx}
     \begin{tabularx}{.4\textwidth}{l}
             \hlnew{\texttt{MR}~::=} \hfill \textit{method refinements:}\\
             \quad \hlnew{\texttt{refines C~m~(\={C}~\={x}) \{return~e;\}}}\\ \\
-            \texttt{e}~::= \hfill \textit{terms:}\\
+            \texttt{e}~::= \hfill \textit{expressions:}\\
             \quad \texttt{x} \hfill\textit{variable}\\ 
             \quad \texttt{e.f} \hfill\textit{field access}\\
             \quad \texttt{e.m(\={e})} \hfill\textit{method invocation}\\
@@ -43,6 +38,29 @@ declarations and expressions is given at Table~\ref{abstractsyntax}.
 \end{table}
 %\end{center}
 
+
+The syntax of \ac{FFJ} constructs is given at Table~\ref{abstractsyntax}. The metavariables
+\texttt{A B C D} and \texttt{E} ranges over class names, \texttt{f} and \texttt{g} ranges over
+field names; \texttt{m} ranges method name; \texttt{x} ranges over variable and \texttt{v} ranges over
+values. We assume a that the set of variables includes the special variable \texttt{this}, which
+cannot be used as the name of an argument of a method.
+
+We write \texttt{\=f} as a shorthand for a possible empty sequence \texttt{f\textsubscript1}, \dots, \texttt{f\textsubscript{n}} 
+and similarly for \texttt{\=C}, \texttt{\=x}, \texttt{\=e}, etc. We abbreviate the operations on pairs of sequences
+``\texttt{\=C~\=f}'' for ``\texttt{C\textsubscript1~f\textsubscript1},\dots, \texttt{C\textsubscript{n}~f\textsubscript{n}}''
+and ``\texttt{this.\=f=\=f;}'' as a shorthand for 
+``\texttt{this.\=f\textsubscript1=\=f\textsubscript1;} \dots, \texttt{this.\=f\textsubscript{n}=\=f\textsubscript{n};}''
+
+An \ac{FFJ} program consists
+of a set of class and refinement declaration as well as an expression. A class declaration
+\texttt{CD} contains a list \texttt{\=C \=f} of fields, a constructor declaration \texttt{K},
+and a list \texttt{\={M}} of method declarations. A class refinement \texttt{CR} contains
+a list \texttt{\=C \=f} of fields, a constructor refinement \texttt{KR}, a list \texttt{\=M}
+of method declaretions ane a list \texttt{\={MR}} of method refinements. The declaration of a 
+class refinement is preceded by the keyword \texttt{refines}. Method declaration or a method 
+refinement \texttt{m} both expects arguments \texttt{\=x} of type \texttt{\=C}, contains the
+body \texttt{return e}
+
 The variable \texttt{this} is assumed to be included in the set of variables, but
 it cannot be used as the name of an argument to a method. 
 
@@ -51,7 +69,7 @@ $f_{1},\ldots,f_{n}$~(and similary for $\bar{C},\ \bar{x},\
 \bar{e}$ etc.) and $\bar{M}$ as a shorthand for
 $M_{1}\ldots M_{n}$~(with no commas).
 
-\begin{table}[ht!]
+\begin{table}[!h]
     \raggedright \textit{Predecessor}\\
 	\centering
     \begin{tabular}{c}
