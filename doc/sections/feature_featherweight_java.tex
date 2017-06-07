@@ -15,21 +15,31 @@ declarations and expressions is given at Table~\ref{abstractsyntax}.
 
 %\begin{center}
 \begin{table}[ht!]
-    \centering
-    \begin{tabular}{|ccl|}
-        \hline
-        \texttt{CD}&~::= & \texttt{class\ C~extends~C\ \{\={C} \ \={f}; K \={M}\}}\\ 
-        \texttt{CR}&~::= & \texttt{refines~class\ C\ \{\={C} \ \={f}; KD \={M}\}}\\ 
-        \texttt{KD} &~::= &
-        \texttt{C~(\={C}~\={f})\
-        \{super~(\={f});~this.\={f}=\={f};\}}\\
-        \texttt{MD} &~::= & \texttt{C~m~(\={C}~\={x})\ \{return~e;\}}\\
-        \texttt{MR} &~::= & \texttt{refines C~m~(\={C}~\={x})\ \{return~e;\}}\\
-        \texttt{e} &~::= & \texttt{x~|~e.f~|~e.m~(\={e})~|~new~C~(\={e})~|~(C)~e} \\
-        \texttt{v} &~::= & \texttt{new~C~(\={e})} \\
-        \hline
-    \end{tabular} \\
-    \vspace{1.5mm}
+    \begin{tabularx}{.62\textwidth}{l|}
+            \texttt{CD}~::= \hfill \textit{class declarations:}\\
+            \quad \texttt{class\ C~extends~C\ \{\={C} \={f}; K \={M}\}} \\  \\
+            \texttt{CR}~::= \hfill \textit{class refinements:}\\
+            \quad \texttt{refines~class\ C\ \{\={C} \={f}; KD \={M}\}} \\ \\
+            \texttt{KD}~::=  \hfill\textit{constructor declarations:}\\
+            \quad \texttt{C(\={C}~\={f})\{super(\={f});~this.\={f}=\={f};\}}\\\\
+            \texttt{KR}~::= \hfill\textit{constructor refinements:} \\
+            \quad \texttt{refines~C(\={E}~\={h}, \={C} \={f})\{original(\={f}); this.\={f}=\={f};\}} \\\\
+            \texttt{MD}~::= \hfill\textit{method declarations:}\\
+            \quad \texttt{C~m~(\={C}~\={x})\ \{return~e;\}}
+    \end{tabularx}
+    \begin{tabularx}{.4\textwidth}{l}
+            \texttt{MR}~::= \hfill \textit{method refinements:}\\
+            \quad \texttt{refines C~m~(\={C}~\={x})\ \{return~e;\}}\\ \\
+            \texttt{e}~::= \hfill \textit{terms:}\\
+            \quad \texttt{x} \hfill\textit{variable}\\ 
+            \quad \texttt{e.f} \hfill\textit{field access}\\
+            \quad \texttt{e.m(\={e})} \hfill\textit{method invocation}\\
+            \quad \texttt{new~C(\={e})} \hfill\textit{object creation}\\
+            \quad \texttt{(C)e} \hfill\textit{cast}\\ \\
+            \texttt{v}~::= \hfill \textit{values:}\\
+            \quad \texttt{new~C(\={e})} \hfill\textit{object creation}
+    \end{tabularx}
+    \quad
     \caption{\ac{FFJ} Syntax}
     \label{abstractsyntax}
 \end{table}
@@ -44,20 +54,28 @@ $f_{1},\ldots,f_{n}$~(and similary for $\bar{C},\ \bar{x},\
 $M_{1}\ldots M_{n}$~(with no commas).
 
 \begin{table}[ht!]
+    \raggedright \textit{Predecessor}\\
 	\centering
-    \label{subtyping}
-	\begin{tabular}{|c@{\hskip 1in}c@{\hskip 1in}c|}
-        \hline
-		\texttt{C~<:~C} & 
+    \begin{tabular}{c}
+        \inferrule{index~\texttt{R RT} =\ n\\
+                  get~(n-1)~\texttt{RT} = \texttt{P}}
+        {\textit{pred } \texttt{R} =\texttt{P}}
+    \end{tabular}
+
+    \raggedright \textit{Subtyping}\\
+	\centering
+	\begin{tabular}{c@{\qquad}c@{\qquad}c}
+		\inferrule{ }{\texttt{C~<:~C}} & 
 		\inferrule{\texttt{C <: D} \qquad \texttt{C <: E}}
 		{\texttt{C~<:~E}} &
 		\inferrule{\texttt{class~C~extends~D~\{~\ldots~\}}}
 		{\texttt{C~<:~D}} \\
-        \hline
 	\end{tabular}
-    \vspace{1.5mm}
-    \caption{Subtyping}
+    \label{subtyping}
+    \qquad\qquad
+    \caption{Subtyping and Predecessor Relations}
 \end{table}
+
 \begin{table}[ht!]
 	\centering
 	\def\arraystretch{2.5}
@@ -70,8 +88,8 @@ $M_{1}\ldots M_{n}$~(with no commas).
         \hline
 	\end{tabular}
     \label{field}
+    \quad\quad
     \caption{Field lookup}
-    \vspace{1.5mm}
 \end{table}
 
 
@@ -87,7 +105,7 @@ $M_{1}\ldots M_{n}$~(with no commas).
 		{mtype~(m,~C)=mtype~(m,~D)} \\
         \hline
 	\end{tabular}
-    \vspace{1.5mm}
+    \quad
     \label{mtypelookup}
     \caption{Method type lookup}
 \end{table}
@@ -106,8 +124,8 @@ $M_{1}\ldots M_{n}$~(with no commas).
 		{mbody~(m,~C)=mbody~(m,~D)} \\
 	\end{tabular}
     \label{mbodylookup}
+    \quad
     \caption{Method body lookup}
-\vspace{1.5mm}
 \end{table}
 
 
@@ -142,7 +160,7 @@ $M_{1}\ldots M_{n}$~(with no commas).
 		{\Gamma \vdash (C)~e_0:C} & (T-SCast)\\
 
 	\end{tabular}
-\vspace{1.5mm}
+\quad
 \label{exptyping}
 \end{table}
 
@@ -159,7 +177,7 @@ $M_{1}\ldots M_{n}$~(with no commas).
 		\inferrule{C<:D}
         {(D)(new\ C~(\bar{e})) \rightarrow new\ C~(\bar{e})} & (R-Cast)\\
 	\end{tabular}
-\vspace{1.5mm}
+\quad
 \label{expcomput}
 \end{table}
 
@@ -180,7 +198,7 @@ $M_{1}\ldots M_{n}$~(with no commas).
         {(C)e_0 \rightarrow (C)e_0'} & (RC-Cast) \\
 
 	\end{tabular}
-\vspace{1.5mm}
+\quad
 \label{expcongr}
 \end{table}
 
