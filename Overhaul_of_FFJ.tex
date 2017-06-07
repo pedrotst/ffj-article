@@ -8,6 +8,19 @@
 %\usepackage{amsmath}
 %\usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{xcolor, colortbl}
+\usepackage{soul}
+
+\definecolor{shyellow}{rgb}{.9, .8, .2}
+\definecolor{shpurple}{rgb}{.9, .6, .8}
+\newcommand{\hlmod}[1]{{%
+    \sethlcolor{shyellow}\hl{#1}}%
+}
+
+\newcommand{\hlnew}[1]{{%
+    \sethlcolor{shpurple}\hl{#1}}%
+}
+
 
 \acrodef{FOP}[FOP]{Feature Oriented Programming}
 \acrodef{ITP}[ITP]{Interactive Theorem Prover}
