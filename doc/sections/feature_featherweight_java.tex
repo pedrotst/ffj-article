@@ -69,12 +69,15 @@ A class refinement \texttt{refines~class~R~\{\={C}~\={f};~KD~\={M}~\={MR}\}}
 introduces a refinement of the class \texttt{C}. 
 This refinement contains the fields  \texttt{\=f} of type \texttt{\=C}, 
 a constructor refinement \texttt{KR}, methods declarations \texttt{\=M} and method refinements \texttt{\={MR}}.
-Like class declarations, the fields of a class refinement R are added to the fields of its predecessor, which
-is explained in more detail in \ref{subsec:lookup}.
+Like class declarations, the fields of a class refinement \texttt{R} are added to the fields of its predecessor, which
+is explained in more detail in Section \ref{subsec:lookup}.
 
-Method declaration or \texttt{refines C~m~(\={C}~\={x}) \{return~e;\}}
-refinement \texttt{m} both expects arguments \texttt{\=x} of type \texttt{\=C}, contains the
-body \texttt{return e}
+Method declaration \texttt{C~m~(\={C}~\={x})\ \{return~e;\}} and method refinement \texttt{refines C~m~(\={C}~\={x})\ \{return~e;\}} 
+introduces a method \texttt{m} of return type \texttt{C} with arguments \texttt{\={C}~\={x}} and body \texttt{e}.
+Method declarations should only appear inside a class declaration or a refinement declaration.
+
+Method refinement \texttt{refines C~m~(\={C}~\={x})\ \{return~e;\}}, similarly, introduces a method \texttt{m} of return type \texttt{C}
+with arguments \texttt{\={C}~\={x}} and body \texttt{e}. Method refinements should only appear inside a refinement declaration.
 
 A class table CT is a mapping from class names \texttt{C} to class declarations \texttt{CD}.
 A refinement table RT is a mapping from refinement name \texttt{C~@~feat} to refinement declarations.
