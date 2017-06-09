@@ -96,8 +96,8 @@ Specifying a language in an \ac{ITP} is seldom faithful
 to its original pen-and-paper specification. However the process of mechanizing the
 language and type safety proofs might unearth insights for clearer overall specification.
 In the present we discuss the process of extending a mechanization of \textit{\ac{FJ}}
-with \textit{\ac{FFJ}} in \texttt{Coq} and how that lead us to a
-clearer, unambiguous and equivalent syntax and semantics while keeping the proofs as simple as possible.
+with \textit{\ac{FFJ}} in \texttt{Coq} which we name as \textit{\ac{FFJ+}} and how that lead us to a
+clearer, unambiguous and equivalent syntax and semantics while keeping the proofs as well as \ac{FJ} extension as simple as possible.
 This is also the first mechanization of a \textit{\ac{FOP}} language to date.
 
 
@@ -133,9 +133,14 @@ The idea behind mechanization is to check these proofs with the aid of a compute
 taking full use of automation for the tedious or straightforward steps of the proof.
 
 In this paper, we present an implementation of \ac{FJ} which we extend with \ac{FFJ} using \texttt{Coq}.
-The process of scrutinizing \ac{FFJ} and defining \textit{unambigously} its semantics in \texttt{Coq} lead us to some language specification and implementation improvements. 
-Altogether these improvements makes more natural the transition between \ac{FJ} and \ac{FFJ}, simplifying the auxiliary functions used in the language specification as well as the type safety proofs and lemmas. 
-Not only to be easier to increment \ac{FJ} syntax and semantics, but also easier increment its proofs leading to a clearer and simpler specification of \textit{FFJ}.
+The process of scrutinizing \ac{FFJ} and defining \textit{unambigously} its semantics in \texttt{Coq} 
+lead us to some language specification and implementation improvements. 
+Henceforth, we refer this proposed calculus as \ac{FFJ+} only to simplify the
+labeling problem in the discussion of comparing our implementation to the original \ac{FFJ} design.
+Altogether the improvements proposed in \ac{FFJ+} makes the transition more natural between \ac{FJ} and \ac{FFJ}, 
+simplifying the auxiliary functions used in the language specification as well as the type safety proofs and lemmas. 
+Not only to be easier to increment \ac{FJ} syntax and semantics, 
+but also easier increment its proofs leading to a clearer and simpler specification of \textit{FFJ}.
 Hence we can sumarize the main contribution of this paper as follows:
 \begin{enumerate}
     \item The first mechanization of a FOP type system
