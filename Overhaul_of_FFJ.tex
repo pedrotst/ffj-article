@@ -27,6 +27,7 @@
 \acrodef{ITP}[ITP]{Interactive Theorem Prover}
 \acrodef{FJ}[FJ]{Featherweight Java}
 \acrodef{FFJ}[FFJ]{Feature Featherweight Java}
+\acrodef{FFJ+}[FFJ\textsubscript{+}]{Overhaul Feature Featherweight Java}
 
 \usepackage{amssymb}
 \setcounter{tocdepth}{3}
@@ -145,6 +146,7 @@ Hence we can sumarize the main contribution of this paper as follows:
 
 This paper is organized as follows: in the Section~\ref{seq:coq} we give a brief introduction to \texttt{Coq} 
 Section~\ref{seq:fop} briefly introduces software product lines, \ac{FOP} and \ac{FFJ},
+Section~\ref{seq:offj} gives a brief introduction of  \ac{FFJ+} and explains the main differences with \ac{FJ}
 Section~\ref{seq:ffj} formally describes our revamped \ac{FFJ} and states the lemmas needed to preserve \ac{FJ} increment to \ac{FFJ} type safety, 
 Section~\ref{seq:impl} discuss the implications of these results to the product line research,
 Section~\ref{seq:related} discuss related works and
@@ -155,7 +157,10 @@ Lorem Ipsum
 
 \section{Feature Oriented Programming}\label{seq:fop}
 
-\section{Feature Featherweight Java}\label{seq:ffj}
+\section{Overview of Overhaul Feature Featherweight Java}\label{seq:offj}
+\input{doc/sections/overviewffj}
+
+\section{Overhaul Feature Featherweight Java}\label{seq:ffj}
 \input{doc/sections/feature_featherweight_java}
 
 

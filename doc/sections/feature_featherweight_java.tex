@@ -9,6 +9,8 @@ the modified rules highlited with \hlmod{shaded yellow boxes} and new rules high
 
 \begin{table}[!ht]
     \begin{tabularx}{.62\textwidth}{l|}
+            \hlnew{\texttt{R}~::=} \hfill \textit{refinement names:} \\
+            \quad \hlnew{\texttt{C@feat}} \\ \\
             \texttt{CD}~::= \hfill \textit{class declarations:}\\
             \quad \texttt{class\ C~extends~C\ \{\={C} \={f}; K \={M}\}} \\  \\
             \hlnew{\texttt{CR}~::=} \hfill \textit{class refinements:}\\
@@ -42,9 +44,7 @@ the modified rules highlited with \hlmod{shaded yellow boxes} and new rules high
 The syntax of \ac{FFJ} constructs is given at Table~\ref{abstractsyntax}. The metavariables
 \texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} and \texttt{E} ranges over class names, \texttt{f} and \texttt{g} ranges over
 field names; \texttt{m} ranges method name; \texttt{x} ranges over variable, \texttt{v} ranges over
-values, \texttt{feat} ranges over feature names and 
-\texttt{R}, \texttt{S} and \texttt{P} ranges over refinement name, which are represented by \texttt{C@feat}.
-We assume a that the set of variables includes the special variable \texttt{this}, which
+values, \texttt{feat} ranges over feature names. We assume a that the set of variables includes the special variable \texttt{this}, which
 cannot be used as the name of an argument of a method.
 
 We write \texttt{\=f} as a shorthand for a possible empty sequence \texttt{f\textsubscript1}, \dots, \texttt{f\textsubscript{n}} 
@@ -86,8 +86,8 @@ inside a class refinement. There is such a distinction between method declaratio
 to recognize the difference between method refinement and inadvertent overriding/replacement.
 
 A class table \textsf{CT} is a mapping from class names \texttt{C} to class declarations \texttt{CD}.
-A refinement table RT is a mapping from refinement name \texttt{C~@~feat} to refinement declarations.
-An \ac{FFJ} program consists of a triple (\textsf{CT}, RT, \texttt{e}) of a class table, a refinement table
+A refinement table \textsf{RT} is a mapping from refinement name \texttt{C@feat} to refinement declarations.
+An \ac{FFJ} program consists of a triple (\textsf{CT}, \textsf{RT}, \texttt{e}) of a class table, a refinement table
 and an expression. Throughout the rest of the paper the \textsf{CT} and the RT are assumed to be always fixed to lighten the notation.
 
 \subsection{Lookup Functions}\label{subsec:lookup}
@@ -108,19 +108,28 @@ The \textsf{CT} is expected to satisfy some sanity conditions:
 
 In Overhaul \ac{FFJ} we fetch the refinement precedence via its position in the \textsf{RT}, i.e.
 if a refinement of a class appears first in the \textsf{RT} it will be applied first. To navigate the
-precedence we define the \textit{pred} function. The \textit{pred} function will get a class refinement as an argument,
-filter refinements of a class \texttt{C} as \texttt{\=R}, fetch the index $n$ of \texttt{R} in \texttt{\=R} 
-and return the element \texttt{P} at the position $n-1$ in \texttt{\=R}. Notice that \textit{pred} is a partial function
+precedence we define the \textit{pred} function. To simplify the notation we define the matcher function
+$class_name$ that, as the name suggests, retrieves the class name of a refinement name.
+The \textit{pred} function will get a class refinement as an argument,
+filter refinements of the same class of \texttt{R} as \texttt{\=R}, fetch the $index$ $n$ of \texttt{R} in \texttt{\=R} 
+and return the element \texttt{P} at the position $n-1$ in \texttt{\=R} (denoted by the $get$ function). Notice that \textit{pred} is a partial function
 because it is not defined if the a refinement is the first refinement.
 
 
 \begin{table}[!ht]
+    \raggedright \textit{Class Name}\\
+	\centering
+    \begin{tabular}{c}
+        \rowcolor{shyellow}
+        \inferrule{\texttt{R} = \texttt{C@feat}}
+                    {class\_name~\texttt{R} = \texttt{C}}
+    \end{tabular}
+
     \raggedright \textit{Predecessor}\\
 	\centering
     \begin{tabular}{c}
         \rowcolor{shpurple}
-        \inferrule{\texttt{R} = \texttt{C@feat} \\
-                  filter~\texttt{C}~\textsf{RT}~=~\texttt{\=R} \\
+        \inferrule{filter~(class\_name~\texttt{R})~\textsf{RT}~=~\texttt{\=R} \\
                   index~\texttt{R}~\texttt{\=R}~=~n\\
                   get~(n-1)~\texttt{\=R}~=~\texttt{P}}
         {\textit{pred}~\texttt{R}~=\texttt{P}}
