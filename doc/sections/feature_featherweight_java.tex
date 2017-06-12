@@ -144,6 +144,7 @@ to the first, looking for a given method or field.
 
 
 \begin{table}[!ht]
+	\def\arraystretch{2.5}
     \raggedright \hlnew{\textit{Class Name}}\\
 	\centering
     \begin{tabular}{c}
@@ -185,6 +186,58 @@ to the first, looking for a given method or field.
     \label{table:refinement}
 \end{table}
 
+With this in hand we can define the actual lookup functions $fields$, $mtypes$ and $mbody$.
+They are taken directly from \ac{FJ} definition, with a new hypothesis and an extra rule.
+The extra rule makes reference to dealing dealing with the refinements.
+
+
+\begin{table}[ht!]
+	\centering
+	\begin{tabular}{c}
+		$fields~($\texttt{Object}$)=\bullet$ \\
+        \\
+        \rowcolor{shyellow}
+		\inferrule{\texttt{class C extends D \{\=C \=f; K = M\}} \qquad 
+                    fields~(D)=\texttt{\={D} \={g}} \qquad
+                    \neg\textit{last}~\texttt{C}}
+                {fields~(\texttt{C})=\texttt{\={D} \={g}, \={C} \={f}}} \\
+        \\
+        \rowcolor{shyellow}
+		\inferrule{\texttt{class C extends D \{\=C \=f; K = M\}} \qquad 
+                    fields~(\texttt{D})~=~\texttt{\={D} \={g}} \\
+                    \textit{last}~\texttt{C}~=\texttt{R} \qquad
+                    fields\_r~(\texttt{R})~=~\texttt{\={E} \={h}}}
+                {fields_R~(\texttt{C})=\texttt{\={D} \={g}, \={C} \={f}, \=E \=h}}\\
+        \\
+	\end{tabular}
+    \label{table:field}
+    \caption{Refinement Field lookup}
+\end{table}
+
+
+\begin{table}[ht!]
+	\centering
+	\begin{tabular}{c}
+		$fields~$\texttt{Object}$=\bullet$ \\
+        \\
+        \rowcolor{shyellow}
+		\inferrule{\texttt{class C extends D \{\=C \=f; K = M\}} \qquad 
+                    fields~D=\texttt{\={D} \={g}} \qquad
+                    \neg\textit{last}~\texttt{C}}
+                {fields~\texttt{C}=\texttt{\={D} \={g}, \={C} \={f}}} \\
+        \\
+        \rowcolor{shyellow}
+		\inferrule{\texttt{class C extends D \{\=C \=f; K = M\}} \qquad 
+                    fields~\texttt{D}~=~\texttt{\={D} \={g}} \\
+                    \textit{last}~\texttt{C}~=~\texttt{R} \qquad
+                    fields_R~\texttt{R}~=~\texttt{\={E} \={h}}}
+                {fields~\texttt{C}=\texttt{\={D} \={g}, \={C} \={f}, \=E \=h}}\\
+        \\
+	\end{tabular}
+    \label{table:field}
+    \caption{Field lookup}
+\end{table}
+
 \begin{table}[ht!]
 	\centering
 	\def\arraystretch{2.5}
@@ -200,6 +253,7 @@ to the first, looking for a given method or field.
     \quad\quad
     \caption{Field lookup}
 \end{table}
+
 
 
 \begin{table}[h!]
