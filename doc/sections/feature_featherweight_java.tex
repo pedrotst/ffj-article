@@ -187,7 +187,19 @@ to the first, looking for a given method or field.
 
 With this in hand we can define the actual lookup functions $fields$, $mtypes$ and $mbody$.
 They are taken directly from \ac{FJ} definition, with a new hypothesis and an extra rule.
-The extra rule makes reference to dealing dealing with the refinements.
+The extra rule and hypothesis makes reference to dealing dealing with the refinements, this is necessary
+to make the proofs easier to maintain, since all we need to do is to provide a few acceptance lemmas
+about these new lookup functions which we name $fields_R$, $mtype_R$ and $mbody_R$.
+
+$fields_R$ simply retrieves the fields of all refinements up to that point in the refinement chain.
+
+$mtype_R$ and $mbody_R$ tries to find the last introduction to a method, and retrieves it's type or body.
+Notice that these two definitions greatly differs from \ac{FFJ} to \ac{FFJ+}. In \ac{FFJ} $mtype$ would
+retrieve the typing of the first method introduction, whereas in \ac{FFJ+} it will retrieve the
+type of the last method refinement, and only later we define the rules for guarating that the
+refinement always has the same type of the method declaration. This was made to greatly simplify
+the proof that states that if a method has $mtype$ then it also has a $mbody$, since both 
+functions follows the same structure the proof is straightfoward.
 
 
 \begin{table}[ht!]
@@ -205,7 +217,7 @@ The extra rule makes reference to dealing dealing with the refinements.
                 {fields_R~\texttt{C}=\texttt{\={D} \={g}, \={C} \={f}}}\\
         \\
 	\end{tabular}
-    \label{table:field}
+    \label{table:field_r}
     \caption{Refinement Field lookup}
 \end{table}
 
