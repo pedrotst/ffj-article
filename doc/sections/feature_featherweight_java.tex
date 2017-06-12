@@ -94,7 +94,7 @@ and an expression. Throughout the rest of the paper the \textsf{CT} and the RT a
 \subsection{Lookup Functions}\label{subsec:lookup}
 
 In \ac{FFJ} as well as in \ac{FJ} types are classes and classes have a subclass relation defined by the syntax of class declaration.
-To navigate this subclass relation in the \textsf{CT}, the auxiliary operator \texttt{<:} is given in \ref{table:sub_pred}, this operator is 
+To navigate this subclass relation in the \textsf{CT}, the auxiliary operator \texttt{<:} is given in Table \ref{table:sub_pred}, this operator is 
 the reflexive and transitive closure of the subclass relation.
 
 The \textsf{CT} is expected to satisfy some sanity conditions:
@@ -107,43 +107,7 @@ The \textsf{CT} is expected to satisfy some sanity conditions:
 		relation \texttt{<:} is antisymmetric
 \end{itemize}
 
-In Overhaul \ac{FFJ} we fetch the refinement precedence via its position in the \textsf{RT}, i.e.
-if a refinement of a class appears first in the \textsf{RT} it will be applied first. To navigate the
-precedence we define the \textit{pred} function. To simplify the notation we define the matcher function
-$class_name$ that, as the name suggests, retrieves the class name of a refinement name.
-The \textit{pred} function will get a class refinement as an argument,
-filter refinements of the same class of \texttt{R} as \texttt{\=R}, fetch the $index$ $n$ of \texttt{R} in \texttt{\=R} 
-and return the element \texttt{P} at the position $n-1$ in \texttt{\=R} (denoted by the $get$ function). Notice that \textit{pred} is a partial function
-because it is not defined if the a refinement is the first refinement.
-
-
 \begin{table}[!ht]
-    \raggedright \hlnew{\textit{Class Name}}\\
-	\centering
-    \begin{tabular}{c}
-        \rowcolor{shpurple}
-        \inferrule{\texttt{R} = \texttt{C@feat}}
-                    {class\_name~\texttt{R} = \texttt{C}}
-    \end{tabular}
-
-    \raggedright \hlmod{\textit{Predecessor}}\\
-	\centering
-    \begin{tabular}{c}
-        \rowcolor{shyellow}
-        \inferrule{filter~(class\_name~\texttt{R})~\textsf{RT}~=~\texttt{\=R} \\
-                  index~\texttt{R}~\texttt{\=R}~=~n\\
-                  get~(n-1)~\texttt{\=R}~=~\texttt{P}}
-        {\textit{pred}~\texttt{R}~=\texttt{P}}
-    \end{tabular}
-
-    \raggedright \hlmod{\textit{Last}}\\
-	\centering
-    \begin{tabular}{c}
-        \rowcolor{shyellow}
-        \inferrule{filter~(class\_name~\texttt{R})~\textsf{RT}~=~\texttt{\=R} \\
-                  tail~\texttt{\=R}~=~\texttt{R}}
-        {\textit{last}~\texttt{C}~=\texttt{R}}
-    \end{tabular}
 
     \raggedright \textit{Subtyping}\\
 	\centering
@@ -154,9 +118,71 @@ because it is not defined if the a refinement is the first refinement.
 		\inferrule{\texttt{class~C~extends~D~\{~\ldots~\}}}
 		{\texttt{C~<:~D}} \\
 	\end{tabular}
+    \caption{Subtype Relation}
     \label{table:sub_pred}
+\end{table}
+
+
+In Overhaul \ac{FFJ} we fetch the refinement precedence via its position in the \textsf{RT}, i.e.
+if a refinement of a class appears first in the \textsf{RT} it will be applied first. 
+These functions to navigate the \textsf{RT} are all defined in Table \ref{table:refinement}
+    
+First we have the function $class\_name$ which retrieves the name of a class refinement.
+
+Next we define the function $refinements\_of~\texttt{C}$ to retrieve the refinements of 
+a given class in the same order as they were introduced in the \textsf{RT}.
+
+To navigate the precedence we define the \textit{pred} and the \textit{last} functions.
+The \textit{pred} function will get a class refinement as an argument,
+filter refinements of the same class of \texttt{R} as \texttt{\=R}, fetch the $index$ $n$ of \texttt{R} in \texttt{\=R} 
+and return the element \texttt{P} at the position $n-1$ in \texttt{\=R} (denoted by the $get$ function). Notice that \textit{pred} is a partial function
+because it is not defined if the a refinement is the first refinement.
+
+The \textit{last} function retrieves the last refinement of a given class \texttt{C}.
+This is needed because in \ac{FFJ+} we navigate the refinement chain backwards, from the last refinement
+to the first, looking for a given method or field. 
+
+
+\begin{table}[!ht]
+    \raggedright \hlnew{\textit{Class Name}}\\
+	\centering
+    \begin{tabular}{c}
+        \rowcolor{shpurple}
+        \inferrule{ \texttt{R} = \texttt{C@feat}}
+                    {class\_name~\texttt{R} = \texttt{C} }
+    \end{tabular}
+
+    \qquad\qquad \\ 
+    \raggedright \hlnew{\textit{Refinements of a class}}\\
+	\centering
+    \begin{tabular}{c}
+        \rowcolor{shpurple}
+        \inferrule{ filter~(\lambda R \cdot class\_name~\texttt{R} == \texttt{C})~\textsf{RT} = \texttt{\=R}}
+                    {refinements\_of~\texttt{C} = \texttt{\=R} }
+    \end{tabular}
+
+    \raggedright \hlmod{\textit{Predecessor}}\\
+	\centering
+    \begin{tabular}{c}
+        \rowcolor{shyellow}
+        \inferrule{refinements\_of~(class\_name~\texttt{R}) = \texttt{\=R}\\
+                  index~\texttt{R}~\texttt{\=R}~=~n\\
+                  get~(n-1)~\texttt{\=R}~=~\texttt{P}}
+        {\textit{pred}~\texttt{R}~=\texttt{P}}
+    \end{tabular}
+
+    \raggedright \hlmod{\textit{Last}}\\
+	\centering
+    \begin{tabular}{c}
+        \rowcolor{shyellow}
+        \inferrule{refinements\_of~\texttt{C} = \texttt{\=R}\\
+                  tail~\texttt{\=R}~=~\texttt{R}}
+        {\textit{last}~\texttt{C}~=\texttt{R}}
+    \end{tabular}
+
     \qquad\qquad
-    \caption{Subtyping and Predecessor Relations}
+    \caption{Refinement Relations}
+    \label{table:refinement}
 \end{table}
 
 \begin{table}[ht!]
