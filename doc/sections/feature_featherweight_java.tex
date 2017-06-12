@@ -142,7 +142,6 @@ The \textit{last} function retrieves the last refinement of a given class \textt
 This is needed because in \ac{FFJ+} we navigate the refinement chain backwards, from the last refinement
 to the first, looking for a given method or field. 
 
-
 \begin{table}[!ht]
 	\def\arraystretch{2.5}
     \raggedright \hlnew{\textit{Class Name}}\\
@@ -194,20 +193,16 @@ The extra rule makes reference to dealing dealing with the refinements.
 \begin{table}[ht!]
 	\centering
 	\begin{tabular}{c}
-		$fields~($\texttt{Object}$)=\bullet$ \\
+        \rowcolor{shpurple}
+        \inferrule{\texttt{refines R \{\=C \=f; KR \=M \={MR}\}} \qquad
+                    \neg pred~\texttt{R}}
+                {fields_R~\texttt{R}~=~\texttt{\=C \=f}} \\
         \\
-        \rowcolor{shyellow}
-		\inferrule{\texttt{class C extends D \{\=C \=f; K = M\}} \qquad 
-                    fields~(D)=\texttt{\={D} \={g}} \qquad
-                    \neg\textit{last}~\texttt{C}}
-                {fields~(\texttt{C})=\texttt{\={D} \={g}, \={C} \={f}}} \\
-        \\
-        \rowcolor{shyellow}
-		\inferrule{\texttt{class C extends D \{\=C \=f; K = M\}} \qquad 
-                    fields~(\texttt{D})~=~\texttt{\={D} \={g}} \\
-                    \textit{last}~\texttt{C}~=\texttt{R} \qquad
-                    fields\_r~(\texttt{R})~=~\texttt{\={E} \={h}}}
-                {fields_R~(\texttt{C})=\texttt{\={D} \={g}, \={C} \={f}, \=E \=h}}\\
+        \rowcolor{shpurple}
+		\inferrule{\texttt{refines R \{\=C \=f; KR \=M \={MR}\}} \qquad
+                    \textit{pred}~\texttt{R}~=~\texttt{P} \\
+                    fields_R~\texttt{P}~=~\texttt{\={D} \={g}}} 
+                {fields_R~\texttt{C}=\texttt{\={D} \={g}, \={C} \={f}}}\\
         \\
 	\end{tabular}
     \label{table:field}
@@ -221,13 +216,13 @@ The extra rule makes reference to dealing dealing with the refinements.
 		$fields~$\texttt{Object}$=\bullet$ \\
         \\
         \rowcolor{shyellow}
-		\inferrule{\texttt{class C extends D \{\=C \=f; K = M\}} \qquad 
+		\inferrule{\texttt{class C extends D \{\=C \=f; K \=M\}} \qquad 
                     fields~D=\texttt{\={D} \={g}} \qquad
                     \neg\textit{last}~\texttt{C}}
                 {fields~\texttt{C}=\texttt{\={D} \={g}, \={C} \={f}}} \\
         \\
         \rowcolor{shyellow}
-		\inferrule{\texttt{class C extends D \{\=C \=f; K = M\}} \qquad 
+		\inferrule{\texttt{class C extends D \{\=C \=f; K \=M\}} \qquad 
                     fields~\texttt{D}~=~\texttt{\={D} \={g}} \\
                     \textit{last}~\texttt{C}~=~\texttt{R} \qquad
                     fields_R~\texttt{R}~=~\texttt{\={E} \={h}}}
