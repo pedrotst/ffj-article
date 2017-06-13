@@ -246,60 +246,110 @@ functions follows the same structure the proof is straightfoward.
 
 \begin{table}[h!]
 	\centering
-	\def\arraystretch{3}
 	\begin{tabular}{c}
         \rowcolor{shpurple}
         \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \qquad 
                 \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
                 {\mtyper{m}{R}~=~\mrettype{B}{B}} \\ 
-
+    \end{tabular}
+    \vspace*{.2cm}
+    \begin{tabularx}{.55\textwidth}{c}
         \rowcolor{shpurple}
         \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \qquad 
+                \texttt{m} \notin \texttt{\={M}} \\
                 \mrefine{B}{m}{B}{x}{e} \in \overline{\texttt{MR}}}
                 {\mtyper{m}{R}~=~\mrettype{B}{B}} \\ 
-
+    \end{tabularx}
+    \begin{tabularx}{.39\textwidth}{c}
         \rowcolor{shpurple}
-        \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \qquad 
-                \texttt{m} \notin \texttt{\={M}} \qquad
-                \texttt{m} \notin \overline{\texttt{MR}} \\
+        \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \\\\
+                \texttt{m} \notin \texttt{\={M}} \quad
+                \texttt{m} \notin \overline{\texttt{MR}} \quad
                 pred~\texttt{R}~=~\texttt{P}}
                 {\mtyper{m}{R}~=~\mtyper{m}{P}} \\ 
-
-    \end{tabular}
+    \end{tabularx}
+    \vspace*{2pt}
     \begin{tabular}{c}
         \rowcolor{shyellow}
         \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
-                \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
+                \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}} \\
+                last~\texttt{C}~=~\texttt{R} \qquad
+                \neg\mtyper{m}{R}}
                 {\mtype{m}{C}~=~\mrettype{B}{B}} \\ 
-
+        \\
         \rowcolor{shyellow}
         \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
-                    \texttt{m}\notin~\texttt{\={M}}}
+                    \texttt{m}\notin~\texttt{\={M}} \\\\
+                    last~\texttt{C}~=~\texttt{R} \qquad
+                    \neg\mtyper{m}{R}}
 		{\mtype{m}{C}~=~\mtype{m}{D}} \\
         \\
+        \rowcolor{shyellow}
+        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
+                    last~\texttt{C}~=~\texttt{R}} 
+		{\mtype{m}{C}~=~\mtyper{m}{R}} \\
+
 	\end{tabular}
     \quad\\
     \label{mtypelookup}
+    \vspace*{5pt}
     \caption{Method type lookup}
 \end{table}
 
 \newcommand{\mbody}[2]{\ensuremath{mbody~(\texttt{#1},\texttt{#2})}}
 \newcommand{\mbodyr}[2]{\ensuremath{mbody_R~(\texttt{#1},\texttt{#2})}}
 \newcommand{\mretbody}[2]{\texttt{\={#1}}\ensuremath{.}\texttt{#2}}
+
 \begin{table}[h!]
 	\centering
-	\def\arraystretch{3}
 	\begin{tabular}{c}
-		\inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
-		{\mbody{m}{C}~=~\mretbody{x}{e}} \\
-
-		\inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad \texttt{m}\notin~\texttt{\={M}}}
+        \rowcolor{shpurple}
+        \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \qquad 
+                \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
+                {\mbodyr{m}{R}~=~\mretbody{x}{e}} \\ 
+    \end{tabular}
+    \vspace*{.2cm}
+    \begin{tabularx}{.55\textwidth}{c}
+        \rowcolor{shpurple}
+        \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \qquad 
+                \texttt{m} \notin \texttt{\={M}} \\
+                \mrefine{B}{m}{B}{x}{e} \in \overline{\texttt{MR}}}
+                {\mbodyr{m}{R}~=~\mretbody{x}{e}} \\ 
+    \end{tabularx}
+    \begin{tabularx}{.39\textwidth}{c}
+        \rowcolor{shpurple}
+        \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \\\\
+                \texttt{m} \notin \texttt{\={M}} \quad
+                \texttt{m} \notin \overline{\texttt{MR}} \quad
+                pred~\texttt{R}~=~\texttt{P}}
+                {\mbodyr{m}{R}~=~\mbodyr{m}{P}} \\ 
+    \end{tabularx}
+    \vspace*{2pt}
+    \begin{tabular}{c}
+        \rowcolor{shyellow}
+        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
+                \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}} \\
+                last~\texttt{C}~=~\texttt{R} \qquad
+                \neg\mbodyr{m}{R}}
+                {\mbody{m}{C}~=~\mretbody{x}{e}} \\ 
+        \\
+        \rowcolor{shyellow}
+        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
+                    \texttt{m}\notin~\texttt{\={M}} \\\\
+                    last~\texttt{C}~=~\texttt{R} \qquad
+                    \neg\mbodyr{m}{R}}
 		{\mbody{m}{C}~=~\mbody{m}{D}} \\
         \\
+        \rowcolor{shyellow}
+        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
+                    last~\texttt{C}~=~\texttt{R}} 
+		{\mbody{m}{C}~=~\mbodyr{m}{R}} \\
+
 	\end{tabular}
-    \label{mbodylookup}
     \quad\\
-    \caption{Method body lookup}
+    \label{mtypelookup}
+    \vspace*{5pt}
+    \caption{Method type lookup}
 \end{table}
 
 
