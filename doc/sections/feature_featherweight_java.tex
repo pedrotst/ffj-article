@@ -11,6 +11,7 @@ the refinement relations were simply dropped for being unecessary by now.
 \newcommand{\cdecl}[6]{\texttt{class #1 extends #2 \{\={#3} \={#4}; #5 \={#6}\}}}
 \newcommand{\crefine}[6]{\texttt{refines class #1 \{\={#2} \={#3}; #4 \={#5} \={#6}\}}}
 \newcommand{\mdecl}[5]{\texttt{#1 #2 (\={#3} \={#4}) \{return #5;\}}}
+\newcommand{\mrefine}[5]{\texttt{refines #1 #2 (\={#3} \={#4}) \{return #5;\}}}
 
 \begin{table}[!ht]
     \begin{tabularx}{.62\textwidth}{l|}
@@ -29,7 +30,7 @@ the refinement relations were simply dropped for being unecessary by now.
     \end{tabularx}
     \begin{tabularx}{.4\textwidth}{l}
         \texttt{MR}~::= \hfill \textit{method refinements:}\\
-        \quad \texttt{refines C~m~(\={C}~\={x}) \{return~e;\}}\\ \\
+        \quad \mrefine{C}{m}{R}{x}{e} \\ \\
         \texttt{e}~::= \hfill \textit{expressions:}\\
         \quad \texttt{x} \hfill\textit{variable}\\ 
         \quad \texttt{e.f} \hfill\textit{field access}\\
@@ -247,9 +248,31 @@ functions follows the same structure the proof is straightfoward.
 	\centering
 	\def\arraystretch{3}
 	\begin{tabular}{c}
+        \rowcolor{shpurple}
+        \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \qquad 
+                \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
+                {\mtyper{m}{R}~=~\mrettype{B}{B}} \\ 
+
+        \rowcolor{shpurple}
+        \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \qquad 
+                \mrefine{B}{m}{B}{x}{e} \in \overline{\texttt{MR}}}
+                {\mtyper{m}{R}~=~\mrettype{B}{B}} \\ 
+
+        \rowcolor{shpurple}
+        \inferrule{\crefine{R}{C}{f}{KR}{M}{MR} \qquad 
+                \texttt{m} \notin \texttt{\={M}} \qquad
+                \texttt{m} \notin \overline{\texttt{MR}} \\
+                pred~\texttt{R}~=~\texttt{P}}
+                {\mtyper{m}{R}~=~\mtyper{m}{P}} \\ 
+
+    \end{tabular}
+    \begin{tabular}{c}
+        \rowcolor{shyellow}
         \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
                 \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
                 {\mtype{m}{C}~=~\mrettype{B}{B}} \\ 
+
+        \rowcolor{shyellow}
         \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
                     \texttt{m}\notin~\texttt{\={M}}}
 		{\mtype{m}{C}~=~\mtype{m}{D}} \\
