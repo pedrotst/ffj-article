@@ -9,6 +9,7 @@ and new rules highlighted by \hlnew{shaded purple boxes}. Also notice that the s
 the refinement relations were simply dropped for being unecessary by now.
 
 \newcommand{\cdecl}[6]{\texttt{class #1 extends #2 \{\={#3} \={#4}; #5 \={#6}\}}}
+\newcommand{\crefine}[6]{\texttt{refines class #1 \{\={#2} \={#3}; #4 \={#5} \={#6}\}}}
 \newcommand{\mdecl}[5]{\texttt{#1 #2 (\={#3} \={#4}) \{return #5;\}}}
 
 \begin{table}[!ht]
@@ -18,7 +19,7 @@ the refinement relations were simply dropped for being unecessary by now.
         \texttt{CD}~::= \hfill \textit{class declarations:}\\
         \quad \cdecl{C}{D}{C}{f}{K}{M} \\  \\
         \hlmod{\texttt{CR}~::=} \hfill \textit{class refinements:}\\
-        \quad \hlmod{\texttt{refines~class R \{\={C} \={f}; KD \={M} \={MR}\}}} \\ \\
+        \quad \hlmod{\texttt{refines class R \{\={C} \={f}; KD \={M} \={MR}\}}} \\ \\
         \texttt{K}~::=  \hfill\textit{constructor declarations:}\\
         \quad \texttt{C(\={C}~\={f})\{super(\={f});~this.\={f}=\={f};\}}\\\\
         \texttt{KD}~::= \hfill\textit{constructor refinements:} \\
@@ -238,41 +239,43 @@ functions follows the same structure the proof is straightfoward.
     \caption{Field lookup}
 \end{table}
 
-\newcommand{\mtype}[4]{\ensuremath{mtype~(\texttt{#1},\texttt{#2})~=~\texttt{\={#3}}\rightarrow~\texttt{#4}}}
-
-\begin{table}[h!]
-	\centering
-	\def\arraystretch{3}
-	\begin{tabular}{|c|}
-        \hline
-        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
-                \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
-                {\mtype{m}{C}{B}{B}} \\ 
-        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
-                    m\notin~\bar{M}}
-		{mtype~(m,~C)=mtype~(m,~D)} \\
-        \hline
-	\end{tabular}
-    \quad
-    \label{mtypelookup}
-    \caption{Method type lookup}
-\end{table}
+\newcommand{\mtype}[2]{\ensuremath{mtype~(\texttt{#1},\texttt{#2})}}
+\newcommand{\mtyper}[2]{\ensuremath{mtype_R~(\texttt{#1},\texttt{#2})}}
+\newcommand{\mrettype}[2]{\texttt{\={#1}}\ensuremath{~\rightarrow~}\texttt{#2}}
 
 \begin{table}[h!]
 	\centering
 	\def\arraystretch{3}
 	\begin{tabular}{c}
-		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
-		\bar{M}\} \qquad B\ m~(\bar{B}\ \bar{x})\{return\
-	e;\}\in~\bar{M}}
-		{mbody~(m,~C)=\bar{x}.e} \\
+        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
+                \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
+                {\mtype{m}{C}~=~\mrettype{B}{B}} \\ 
+        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
+                    \texttt{m}\notin~\texttt{\={M}}}
+		{\mtype{m}{C}~=~\mtype{m}{D}} \\
+        \\
+	\end{tabular}
+    \quad\\
+    \label{mtypelookup}
+    \caption{Method type lookup}
+\end{table}
 
-		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
-		\bar{M}\} \qquad m\notin~\bar{M}}
-		{mbody~(m,~C)=mbody~(m,~D)} \\
+\newcommand{\mbody}[2]{\ensuremath{mbody~(\texttt{#1},\texttt{#2})}}
+\newcommand{\mbodyr}[2]{\ensuremath{mbody_R~(\texttt{#1},\texttt{#2})}}
+\newcommand{\mretbody}[2]{\texttt{\={#1}}\ensuremath{.}\texttt{#2}}
+\begin{table}[h!]
+	\centering
+	\def\arraystretch{3}
+	\begin{tabular}{c}
+		\inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
+		{\mbody{m}{C}~=~\mretbody{x}{e}} \\
+
+		\inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad \texttt{m}\notin~\texttt{\={M}}}
+		{\mbody{m}{C}~=~\mbody{m}{D}} \\
+        \\
 	\end{tabular}
     \label{mbodylookup}
-    \quad
+    \quad\\
     \caption{Method body lookup}
 \end{table}
 
