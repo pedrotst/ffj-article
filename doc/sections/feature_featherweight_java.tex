@@ -8,32 +8,35 @@ the modified rules from \ac{FFJ} to \ac{FFJ+} highlited with \hlmod{shaded yello
 and new rules highlighted by \hlnew{shaded purple boxes}. Also notice that the sucessor and 
 the refinement relations were simply dropped for being unecessary by now.
 
+\newcommand{\cdecl}[6]{\texttt{class #1 extends #2 \{\={#3} \={#4}; #5 \={#6}\}}}
+\newcommand{\mdecl}[5]{\texttt{#1 #2 (\={#3} \={#4}) \{return #5;\}}}
+
 \begin{table}[!ht]
     \begin{tabularx}{.62\textwidth}{l|}
-            \hlnew{\texttt{R}~::=} \hfill \textit{refinement names:} \\
-            \quad \hlnew{\texttt{C@feat}} \\ \\
-            \texttt{CD}~::= \hfill \textit{class declarations:}\\
-            \quad \texttt{class\ C~extends~C\ \{\={C} \={f}; K \={M}\}} \\  \\
-            \hlmod{\texttt{CR}~::=} \hfill \textit{class refinements:}\\
-            \quad \hlmod{\texttt{refines~class R \{\={C} \={f}; KD \={M} \={MR}\}}} \\ \\
-            \texttt{K}~::=  \hfill\textit{constructor declarations:}\\
-            \quad \texttt{C(\={C}~\={f})\{super(\={f});~this.\={f}=\={f};\}}\\\\
-            \texttt{KD}~::= \hfill\textit{constructor refinements:} \\
-            \quad \texttt{refines~C(\={E}~\={h}, \={C} \={f})\{original(\={f}); this.\={f}=\={f};\}} \\\\
-            \texttt{M}~::= \hfill\textit{method declarations:}\\
-            \quad \texttt{C~m~(\={C}~\={x})\ \{return~e;\}}
+        \hlnew{\texttt{R}~::=} \hfill \textit{refinement names:} \\
+        \quad \hlnew{\texttt{C@feat}} \\ \\
+        \texttt{CD}~::= \hfill \textit{class declarations:}\\
+        \quad \cdecl{C}{D}{C}{f}{K}{M} \\  \\
+        \hlmod{\texttt{CR}~::=} \hfill \textit{class refinements:}\\
+        \quad \hlmod{\texttt{refines~class R \{\={C} \={f}; KD \={M} \={MR}\}}} \\ \\
+        \texttt{K}~::=  \hfill\textit{constructor declarations:}\\
+        \quad \texttt{C(\={C}~\={f})\{super(\={f});~this.\={f}=\={f};\}}\\\\
+        \texttt{KD}~::= \hfill\textit{constructor refinements:} \\
+        \quad \texttt{refines~C(\={E}~\={h}, \={C} \={f})\{original(\={f}); this.\={f}=\={f};\}} \\\\
+        \texttt{M}~::= \hfill\textit{method declarations:}\\
+        \quad \mdecl{C}{m}{C}{x}{e}
     \end{tabularx}
     \begin{tabularx}{.4\textwidth}{l}
-            \texttt{MR}~::= \hfill \textit{method refinements:}\\
-            \quad \texttt{refines C~m~(\={C}~\={x}) \{return~e;\}}\\ \\
-            \texttt{e}~::= \hfill \textit{expressions:}\\
-            \quad \texttt{x} \hfill\textit{variable}\\ 
-            \quad \texttt{e.f} \hfill\textit{field access}\\
-            \quad \texttt{e.m(\={e})} \hfill\textit{method invocation}\\
-            \quad \texttt{new~C(\={e})} \hfill\textit{object creation}\\
-            \quad \texttt{(C)e} \hfill\textit{cast}\\ \\
-            \texttt{v}~::= \hfill \textit{values:}\\
-            \quad \texttt{new~C(\={e})} \hfill\textit{object creation}
+        \texttt{MR}~::= \hfill \textit{method refinements:}\\
+        \quad \texttt{refines C~m~(\={C}~\={x}) \{return~e;\}}\\ \\
+        \texttt{e}~::= \hfill \textit{expressions:}\\
+        \quad \texttt{x} \hfill\textit{variable}\\ 
+        \quad \texttt{e.f} \hfill\textit{field access}\\
+        \quad \texttt{e.m(\={e})} \hfill\textit{method invocation}\\
+        \quad \texttt{new~C(\={e})} \hfill\textit{object creation}\\
+        \quad \texttt{(C)e} \hfill\textit{cast}\\ \\
+        \texttt{v}~::= \hfill \textit{values:}\\
+        \quad \texttt{new~C(\={e})} \hfill\textit{object creation}
     \end{tabularx}
     \quad
     \caption{\ac{FFJ} Syntax}
@@ -212,66 +215,41 @@ functions follows the same structure the proof is straightfoward.
         \\
         \rowcolor{shpurple}
 		\inferrule{\texttt{refines R \{\=C \=f; KR \=M \={MR}\}} \qquad
-                    \textit{pred}~\texttt{R}~=~\texttt{P} \\
-                    fields_R~\texttt{P}~=~\texttt{\={D} \={g}}} 
-                {fields_R~\texttt{C}=\texttt{\={D} \={g}, \={C} \={f}}}\\
+                    \textit{pred}~\texttt{R}~=~\texttt{P}}
+                {fields_R~\texttt{C}=fields_R~\texttt{P, \={C} \={f}}}\\
         \\
 	\end{tabular}
-    \label{table:field_r}
-    \caption{Refinement Field lookup}
-\end{table}
-
-
-\begin{table}[ht!]
 	\centering
 	\begin{tabular}{c}
 		$fields~$\texttt{Object}$=\bullet$ \\
         \\
         \rowcolor{shyellow}
 		\inferrule{\texttt{class C extends D \{\=C \=f; K \=M\}} \qquad 
-                    fields~D=\texttt{\={D} \={g}} \qquad
                     \neg\textit{last}~\texttt{C}}
-                {fields~\texttt{C}=\texttt{\={D} \={g}, \={C} \={f}}} \\
+                {fields~\texttt{C}=fields~\texttt{D, \={C} \={f}}} \\
         \\
         \rowcolor{shyellow}
 		\inferrule{\texttt{class C extends D \{\=C \=f; K \=M\}} \qquad 
-                    fields~\texttt{D}~=~\texttt{\={D} \={g}} \\
-                    \textit{last}~\texttt{C}~=~\texttt{R} \qquad
-                    fields_R~\texttt{R}~=~\texttt{\={E} \={h}}}
-                {fields~\texttt{C}=\texttt{\={D} \={g}, \={C} \={f}, \=E \=h}}\\
+                    \textit{last}~\texttt{C}~=~\texttt{R}}
+                {fields~\texttt{C}=fields~\texttt{D, \={C} \={f},} fields_R~\texttt{R}}\\
         \\
 	\end{tabular}
     \label{table:field}
     \caption{Field lookup}
 \end{table}
 
-\begin{table}[ht!]
-	\centering
-	\def\arraystretch{2.5}
-	\begin{tabular}{|c|}
-        \hline
-		$fields~($\texttt{Object}$)=\bullet$ \\
-		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
-		\bar{M}\} \qquad fields~(D)=\bar{D}\ \bar{g}}
-		{fields~(C)=\bar{D}\ \bar{g},\ \bar{C}\ \bar{f}}\\
-        \hline
-	\end{tabular}
-    \label{field}
-    \quad\quad
-    \caption{Field lookup}
-\end{table}
-
-
+\newcommand{\mtype}[4]{\ensuremath{mtype~(\texttt{#1},\texttt{#2})~=~\texttt{\={#3}}\rightarrow~\texttt{#4}}}
 
 \begin{table}[h!]
 	\centering
 	\def\arraystretch{3}
 	\begin{tabular}{|c|}
         \hline
-		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
-		\bar{M}\} \qquad B\ m~(\bar{B}\ \bar{x})\{return\ e;\}\in~\bar{M}} {mtype~(m,~C)=\bar{B}\rightarrow~B} \\
-		\inferrule{class\ C\ extends\ D~\{\bar{C}\ \bar{f};\ K\
-		\bar{M}\} \qquad m\notin~\bar{M}}
+        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
+                \mdecl{B}{m}{B}{x}{e} \in \texttt{\={M}}}
+                {\mtype{m}{C}{B}{B}} \\ 
+        \inferrule{\cdecl{C}{D}{C}{f}{K}{M} \qquad 
+                    m\notin~\bar{M}}
 		{mtype~(m,~C)=mtype~(m,~D)} \\
         \hline
 	\end{tabular}
