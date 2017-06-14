@@ -201,7 +201,7 @@ $fields_R$ simply retrieves the fields of all refinements up to that point in th
 $mtype_R$ and $mbody_R$ tries to find the last introduction to a method, and retrieves it's type or body.
 Notice that these two definitions greatly differs from \ac{FFJ} to \ac{FFJ+}. In \ac{FFJ} $mtype$ would
 retrieve the typing of the first method introduction, whereas in \ac{FFJ+} it will retrieve the
-type of the last method refinement, and only later we define the rules for guarating that the
+type of the last method refinement, and only later we define the rules for guaranting that the
 refinement always has the same type of the method declaration. This was made to greatly simplify
 the proof that states that if a method has $mtype$ then it also has a $mbody$, since both 
 functions follows the same structure the proof is straightfoward.
@@ -347,16 +347,63 @@ functions follows the same structure the proof is straightfoward.
 
 	\end{tabular}
     \quad\\
-    \label{mtypelookup}
+    \label{mbodylookup}
     \vspace*{5pt}
-    \caption{Method type lookup}
+    \caption{Method Body lookup}
 \end{table}
 
+\begin{table}
+	\centering
+	\begin{tabular}{c}
+    	\inferrule{\mtype{m}{D}~=~\mrettype{D}{D}~implies~\overline{\texttt{C}}~=~\overline{\texttt{D}}~and~\texttt{C}_0~=~\texttt{D}}
+       			  {override~\texttt{m D \=C C}_0}
+    \end{tabular}
+    \begin{tabular}{c}
+    	\\\rowcolor{shpurple}
+    	\inferrule{\cdecl{C}{D}{C}{f}{K}{M}\qquad
+        			\mdecl{C$_0$}{m}{C}{x}{e} \in \texttt{\=M}\\\\
+                    \neg~pred~\texttt{R}\qquad \texttt{R}~=~\texttt{C@feat}\qquad
+                    }
+        		  {override_R~\texttt{m R \=C C}_0}\\
+        \\\rowcolor{shpurple}
+        \inferrule{\crefine{P}{C}{f}{KR}{M}{MR}\qquad
+        			\mdecl{C$_0$}{m}{C}{x}{e} \in \texttt{\=M}\\\\
+                    pred~\texttt{R}~=~\texttt{P}\qquad
+                    }
+        		  {override_R~\texttt{m R \=C C}_0}\\
+        \\\rowcolor{shpurple}
+        \inferrule{\crefine{P}{C}{f}{KR}{M}{MR}\qquad
+        			\texttt{m}\notin\texttt{\=M}\\\\
+                    pred~\texttt{R}~=~\texttt{P}\qquad
+                    override_R~\texttt{m P \=C C}_0
+                    }
+        		  {override_R~\texttt{m R \=C C}_0}
+    \end{tabular}
+    \vspace*{2pt}
+    \caption{Override Function}
+\end{table}
 
+\begin{table}
+	\centering
+	\begin{tabular}{c}
+    	\rowcolor{shyellow}
+    	\inferrule{pred~\texttt{R}~=~\texttt{S}\qquad
+        			\neg~\mtyper{m}{S}}
+                    {introduce~\texttt{m R}}\\ \\
+    	\rowcolor{shyellow}
+        \inferrule{\neg~pred~\texttt{R}\qquad \cdecl{C}{D}{C}{f}{K}{M}\qquad
+        			\texttt{m} \notin \texttt{\=M}}
+                    {introduce~\texttt{m R}}
+    \end{tabular}
+    \vspace*{2pt}
+    \caption{Introduce Function}
+\end{table}
+    
+
+\subsection{Typing}
 \begin{table}[h!]
 	\centering
 	\def\arraystretch{3}
-    \caption{Expression typing}
 	\begin{tabular}{cr}
 		$\Gamma \vdash x:\Gamma(x)$& (T-Var)\\
 
@@ -382,10 +429,11 @@ functions follows the same structure the proof is straightfoward.
 		\inferrule{\Gamma \vdash e_{0}:D\qquad C~\nless :~D \qquad D~\nless:~C 
 		\qquad stupid\ warning}
 		{\Gamma \vdash (C)~e_0:C} & (T-SCast)\\
-
 	\end{tabular}
 \quad
 \label{exptyping}
+\caption{Expression typing}
+
 \end{table}
 
 \begin{table}[h!]
@@ -425,8 +473,6 @@ functions follows the same structure the proof is straightfoward.
 \quad
 \label{expcongr}
 \end{table}
-
-\subsection{Typing}
 
 The typing rules for expressions are in Table~\ref{exptyping}. An environment
 $\Gamma$ is a finite mapping from variables to types, written $\bar{c}:\bar{C}$.
