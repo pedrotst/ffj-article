@@ -402,6 +402,43 @@ Introduce checks if a method was not yet declared earlier in the refinement chai
     \caption{Introduce Function}
 \end{table}
 
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c}
+        \inferrule{\mathtt{\bar{x}: \bar{C}, this: C~\vdash t_0 : E_0\qquad E_0 <: C_0 } \\ \\
+            \mathtt{CT(C)~=class~C~extends~D~\{\dots\}\qquad
+            \mathnormal{override}(m, D, \bar{C}\rightarrow C)}}
+            {\mathtt{C_0~m~(\bar{C}~\bar{x})\{return~t_0;\}~OK~in~C}}\\\\
+
+        \inferrule{\mathtt{\bar{x}: \bar{C}, this: C~\vdash t_0 : E_0\qquad E_0 <: C_0 \qquad R~=~C@feat} \\ \\
+                \mathtt{CT(C)~=class~C~extends~D~\{\dots\}\qquad RT(R)~=~refines~R~\{\dots~\bar{M}~\dots\}}\\ \\
+                \mathtt{\mathnormal{override}(m, D, \bar{C}\rightarrow C) \qquad \mathnormal{introduce}~m~R\qquad m \in \bar{M}}}
+            {\mathtt{C_0~m~(\bar{C}~\bar{x})\{return~t_0;\}~OK~in~R}}\\\\
+
+        \inferrule{\mathtt{\bar{x}: \bar{C}, this: C~\vdash t_0 : E_0\qquad E_0 <: C_0 \qquad R~=~C@feat} \\ \\
+                \mathtt{RT(R)~=~refines~R~\{\dots~\bar{M},~\overline{MR}~\dots\} \qquad m\notin\bar{M} \qquad m\in\overline{MR}}\\ \\
+                \mathtt{\mathnormal{override_R}(m, R, \bar{C}\rightarrow C) \qquad \mathnormal{introduce}~m~R}}
+            {\mathtt{refines~C_0~m~(\bar{C}~\bar{x})\{return~t_0;\}~OK~in~R}}\\\\
+
+    \end{tabular}
+\label{typing2}
+\caption{Method typing in \ac{FFJ+}}
+\end{table}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c}
+        \inferrule{\mathtt{K~=~C~(\bar{D}~\bar{g},~\bar{C}~\bar{f})~\{super(\bar{g});~this.\bar{f}=\bar{f}\}\qquad
+            \mathnormal{fields}(D)~=~\bar{D}~\bar{g} \qquad \overline{M}~OK~in~C}}
+            {\mathtt{\cdecl{C}{D}{C}{f}{K}{M}~OK}}\\\\
+
+        \inferrule{\mathtt{ \overline{M}~OK~in~R\qquad \overline{MR}~OK~in~R}}
+            {\mathtt{\crefine{R}{C}{f}{KR}{M}{MR}~OK}}\\\\
+    \end{tabular}
+\label{typing2}
+\caption{Class and refinement typing in \ac{FFJ+}}
+\end{table}
+
 \subsection{Typing}
 \begin{table}[h!]
 	\centering
