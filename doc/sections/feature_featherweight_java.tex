@@ -401,76 +401,69 @@ Introduce checks if a method was not yet declared earlier in the refinement chai
     \vspace*{2pt}
     \caption{Introduce Function}
 \end{table}
-    
 
 \subsection{Typing}
 \begin{table}[h!]
 	\centering
-	\def\arraystretch{3}
 	\begin{tabular}{cr}
-		$\mathtt{\Gamma \vdash x:\Gamma(x)}$& (T-Var)\\
+		$\mathtt{\Gamma \vdash x:\Gamma(x)}$& (T-Var)\\\\
 
         \inferrule{\mathtt{\Gamma \vdash e_0:C_0\qquad \mathnormal{fields}~(C_0)=\bar{C}\ \bar{f}}}
-		{\mathtt{\Gamma \vdash e_{0}.f_{i}:C_{i}}} & (T-Field)\\
+		{\mathtt{\Gamma \vdash e_{0}.f_{i}:C_{i}}} & (T-Field)\\\\
 
         \inferrule{\mathtt{\Gamma \vdash e_{0}:C_{0}\qquad \mathnormal{mtype}~(m,~C_{0})=\bar{D}\rightarrow C\qquad 
         \Gamma \vdash \bar{e} : \bar{C} \qquad \bar{C}~<:~\bar{D}}}
-		{\mathtt{\Gamma \vdash e_{0}.m(\bar{e}):C}} & (T-Invk)\\
+		{\mathtt{\Gamma \vdash e_{0}.m(\bar{e}):C}} & (T-Invk)\\\\
 
         \inferrule{\mathtt{\mathnormal{fields}~(C)=\bar{D}\ \bar{f}\qquad \Gamma \vdash \bar{e}:\bar{C} \qquad \bar{C}~<:~\bar{D}}}
-		{\mathtt{\Gamma \vdash new\ C(\bar{e}):C}} & (T-New)\\
+		{\mathtt{\Gamma \vdash new\ C(\bar{e}):C}} & (T-New)\\\\
 
 		\inferrule{\mathtt{\Gamma \vdash e_{0}:D \qquad D~<:~C}}
-		{\mathtt{\Gamma \vdash (C)~e_{0}: C}} & (T-UCast)\\
+		{\mathtt{\Gamma \vdash (C)~e_{0}: C}} & (T-UCast)\\\\
 
 		\inferrule{\mathtt{\Gamma \vdash e_{0}:D\qquad C~<:~D \qquad C \neq D}}
-		{\mathtt{\Gamma \vdash (C)~e_{0}:C}} & (T-DCast)\\
+		{\mathtt{\Gamma \vdash (C)~e_{0}:C}} & (T-DCast)\\\\
 
         \inferrule{\mathtt{\Gamma \vdash e_{0}:D\qquad C~\nless :~D \qquad D~\nless:~C \qquad stupid\ warning}}
-		{\mathtt{\Gamma \vdash (C)~e_0:C}} & (T-SCast)\\
+		{\mathtt{\Gamma \vdash (C)~e_0:C}} & (T-SCast)\\\\
 	\end{tabular}
-\\
-\label{exptyping}
-\caption{Expression typing}
+    \label{exptyping}
+    \vspace*{2pt}
+    \caption{Expression typing}
 
 \end{table}
 
 \begin{table}[h!]
 	\centering
-	\def\arraystretch{3}
 	\begin{tabular}{cr}
 		\inferrule{\mathtt{\mathnormal{fields}~(C) = \bar{C} \bar{f}}}
-        {\mathtt{(new\ C(\bar{e})).f_i \rightarrow e_i}} & (R-Field) \\
+        {\mathtt{(new\ C(\bar{e})).f_i \rightarrow e_i}} & (R-Field) \\ \\
 
 		\inferrule{\mathtt{\mathnormal{mbody}~(m, C) = \bar{x}.e_0}}
-        {\mathtt{(new\ C~(\bar{e})).m~(\bar{d}) \rightarrow[\bar{d}/\bar{x}, new\ C~(\bar{e})/this]e_0}} & (R-Invk)\\
+        {\mathtt{(new\ C~(\bar{e})).m~(\bar{d}) \rightarrow[\bar{d}/\bar{x}, new\ C~(\bar{e})/this]e_0}} & (R-Invk)\\ \\
 		\inferrule{\mathtt{C<:D}}
-        {\mathtt{(D)(new\ C~(\bar{e})) \rightarrow new\ C~(\bar{e})}} & (R-Cast)\\
+        {\mathtt{(D)(new\ C~(\bar{e})) \rightarrow new\ C~(\bar{e})}} & (R-Cast)\\ \\
+
+		\inferrule{\mathtt{e_0 \rightarrow e_0'}}
+        {\mathtt{e_0.f\rightarrow e_0'.f}} & (RC-Field) \\ \\
+
+		\inferrule{\mathtt{e_0 \rightarrow e_0'}}
+        {\mathtt{e_0.m~(\bar{e})\rightarrow e_0'.m~(\bar{e})}} & (RC-Invk-Recv) \\ \\
+
+		\inferrule{\mathtt{e_i \rightarrow e_i'}}
+        {\mathtt{e_0.m~(\dots, e_i, \dots) \rightarrow e_0'.m~(\dots, e_i, \dots)}} & (RC-Invk-Arg) \\ \\
+
+		\inferrule{\mathtt{e_i \rightarrow e_i'}}
+        {\mathtt{new\ C~(\dots, e_i, \dots) \rightarrow new\ C~(\dots, e_i', \dots)}} & (RC-New-Arg) \\ \\
+
+		\inferrule{\mathtt{e_0 \rightarrow e_0'}}
+        {\mathtt{(C)e_0 \rightarrow (C)e_0'}} & (RC-Cast) \\ \\
+
+
 	\end{tabular}
-\quad
-\caption{Expression computation}
+\vspace*{2pt}
 \label{expcomput}
-\end{table}
-
-\begin{table}[h!]
-	\centering
-	\def\arraystretch{3}
-    \caption{Congruence}
-	\begin{tabular}{cr}
-		\inferrule{e_0 \rightarrow e_0'}
-        {e_0.f\rightarrow e_0'.f} & (RC-Field) \\
-		\inferrule{e_0 \rightarrow e_0'}
-        {e_0.m~(\bar{e})\rightarrow e_0'.m~(\bar{e})} & (RC-Invk-Recv) \\
-		\inferrule{e_i \rightarrow e_i'}
-        {e_0.m~(\dots, e_i, \dots) \rightarrow e_0'.m~(\dots, e_i, \dots)} & (RC-Invk-Arg) \\
-		\inferrule{e_i \rightarrow e_i'}
-        {new\ C~(\dots, e_i, \dots) \rightarrow new\ C~(\dots, e_i', \dots)} & (RC-New-Arg) \\
-		\inferrule{e_0 \rightarrow e_0'}
-        {(C)e_0 \rightarrow (C)e_0'} & (RC-Cast) \\
-
-	\end{tabular}
-\quad
-\label{expcongr}
+\caption{Expression computation}
 \end{table}
 
 The typing rules for expressions are in Table~\ref{exptyping}. An environment
