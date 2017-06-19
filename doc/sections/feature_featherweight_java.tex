@@ -383,6 +383,7 @@ functions follows the same structure the proof is straightfoward.
     \caption{Override Function}
 \end{table}
 
+Introduce checks if a method was not yet declared earlier in the refinement chain.
 \begin{table}
 	\centering
 	\begin{tabular}{c}
@@ -391,7 +392,9 @@ functions follows the same structure the proof is straightfoward.
         			\neg~\mtyper{m}{S}}
                     {introduce~\texttt{m R}}\\ \\
     	\rowcolor{shyellow}
-        \inferrule{\neg~pred~\texttt{R}\qquad \cdecl{C}{D}{C}{f}{K}{M}\qquad
+        \inferrule{\neg~pred~\texttt{R}\qquad 
+                    \texttt{R}~=~\texttt{C@feat} \qquad
+                    \cdecl{C}{D}{C}{f}{K}{M}\qquad
         			\texttt{m} \notin \texttt{\=M}}
                     {introduce~\texttt{m R}}
     \end{tabular}
@@ -405,32 +408,28 @@ functions follows the same structure the proof is straightfoward.
 	\centering
 	\def\arraystretch{3}
 	\begin{tabular}{cr}
-		$\Gamma \vdash x:\Gamma(x)$& (T-Var)\\
+		$\mathtt{\Gamma \vdash x:\Gamma(x)}$& (T-Var)\\
 
-		\inferrule{\Gamma \vdash e_{0}:C_{0}\qquad fields~(C_{0})=\bar{C}\
-		\bar{f}}
-		{\Gamma \vdash e_{0}.f_{i}:C_{i}} & (T-Field)\\
+        \inferrule{\mathtt{\Gamma \vdash e_0:C_0\qquad \mathnormal{fields}~(C_0)=\bar{C}\ \bar{f}}}
+		{\mathtt{\Gamma \vdash e_{0}.f_{i}:C_{i}}} & (T-Field)\\
 
-		\inferrule{\Gamma \vdash e_{0}:C_{0}\qquad
-			mtypes~(m,~C_{0})=\bar{D}\rightarrow C\qquad \Gamma \vdash
-		\bar{e} : \bar{C} \qquad \bar{C}~<:~\bar{D}}
-		{\Gamma \vdash e_{0}.m(\bar{e}):C} & (T-Invk)\\
+        \inferrule{\mathtt{\Gamma \vdash e_{0}:C_{0}\qquad \mathnormal{mtype}~(m,~C_{0})=\bar{D}\rightarrow C\qquad 
+        \Gamma \vdash \bar{e} : \bar{C} \qquad \bar{C}~<:~\bar{D}}}
+		{\mathtt{\Gamma \vdash e_{0}.m(\bar{e}):C}} & (T-Invk)\\
 
-		\inferrule{fields(C)=\bar{D}\ \bar{f}\qquad \Gamma \vdash
-		\bar{e}:\bar{C} \qquad \bar{C}~<:~\bar{D}}
-		{\Gamma \vdash new\ C(\bar{e}):C} & (T-New)\\
+        \inferrule{\mathtt{\mathnormal{fields}~(C)=\bar{D}\ \bar{f}\qquad \Gamma \vdash \bar{e}:\bar{C} \qquad \bar{C}~<:~\bar{D}}}
+		{\mathtt{\Gamma \vdash new\ C(\bar{e}):C}} & (T-New)\\
 
-		\inferrule{\Gamma \vdash e_{0}:D \qquad D~<:~C}
-		{\Gamma \vdash (C)~e_{0}: C} & (T-UCast)\\
+		\inferrule{\mathtt{\Gamma \vdash e_{0}:D \qquad D~<:~C}}
+		{\mathtt{\Gamma \vdash (C)~e_{0}: C}} & (T-UCast)\\
 
-		\inferrule{\Gamma \vdash e_{0}:D\qquad C~<:~D \qquad C \neq D}
-		{\Gamma \vdash (C)~e_{0}:C} & (T-DCast)\\
+		\inferrule{\mathtt{\Gamma \vdash e_{0}:D\qquad C~<:~D \qquad C \neq D}}
+		{\mathtt{\Gamma \vdash (C)~e_{0}:C}} & (T-DCast)\\
 
-		\inferrule{\Gamma \vdash e_{0}:D\qquad C~\nless :~D \qquad D~\nless:~C 
-		\qquad stupid\ warning}
-		{\Gamma \vdash (C)~e_0:C} & (T-SCast)\\
+        \inferrule{\mathtt{\Gamma \vdash e_{0}:D\qquad C~\nless :~D \qquad D~\nless:~C \qquad stupid\ warning}}
+		{\mathtt{\Gamma \vdash (C)~e_0:C}} & (T-SCast)\\
 	\end{tabular}
-\quad
+\\
 \label{exptyping}
 \caption{Expression typing}
 
@@ -439,17 +438,17 @@ functions follows the same structure the proof is straightfoward.
 \begin{table}[h!]
 	\centering
 	\def\arraystretch{3}
-    \caption{Expression computation}
 	\begin{tabular}{cr}
-		\inferrule{fields~(C) = \bar{C} \bar{f}}
-        {(new\ C(\bar{e})).f_i \rightarrow e_i} & (R-Field) \\
+		\inferrule{\mathtt{\mathnormal{fields}~(C) = \bar{C} \bar{f}}}
+        {\mathtt{(new\ C(\bar{e})).f_i \rightarrow e_i}} & (R-Field) \\
 
-		\inferrule{mbody~(m, C) = \bar{x}.e_0}
-        {(new\ C~(\bar{e})).m~(\bar{d}) \rightarrow[\bar{d}/\bar{x}, new\ C~(\bar{e})/this]e_0} & (R-Invk)\\
-		\inferrule{C<:D}
-        {(D)(new\ C~(\bar{e})) \rightarrow new\ C~(\bar{e})} & (R-Cast)\\
+		\inferrule{\mathtt{\mathnormal{mbody}~(m, C) = \bar{x}.e_0}}
+        {\mathtt{(new\ C~(\bar{e})).m~(\bar{d}) \rightarrow[\bar{d}/\bar{x}, new\ C~(\bar{e})/this]e_0}} & (R-Invk)\\
+		\inferrule{\mathtt{C<:D}}
+        {\mathtt{(D)(new\ C~(\bar{e})) \rightarrow new\ C~(\bar{e})}} & (R-Cast)\\
 	\end{tabular}
 \quad
+\caption{Expression computation}
 \label{expcomput}
 \end{table}
 
