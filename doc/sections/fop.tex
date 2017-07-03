@@ -10,6 +10,11 @@ decomposition in terms of class hierarchies.
 Successful usage scenarios of FOP have been reported in the literature 
 for the domains of highly configurable systems and
 software product lines~\cite{}.  
+FOP has been implemented using both programming 
+language extensions and tooling support, such as 
+Java AHEAD Tool Suite~\cite{batory_feature-oriented_2004} and \textsc{FeatureC++}~\cite{apel_featurec++:_2005}. 
+
+\subsection{A Running Example: The Expression Product Line in \ac{FOP}}
 
 \begin{wrapfigure}{r}{0.45\textwidth}
 \centering
@@ -18,9 +23,7 @@ software product lines~\cite{}.
 \caption{EPL feature model} 
 \end{wrapfigure} 
 
-FOP has been implemented using both programming 
-language extensions and tooling support, such as 
-Java AHEAD Tool Suite~\cite{batory_feature-oriented_2004} and \textsc{FeatureC++}~\cite{apel_featurec++:_2005}. 
+
 In this section we illustrate the use of FOP through an AHEAD implementation 
 of a slight adaptation of the Expression Product Line (EPL)~\cite{}---Figure~\ref{fig:epl_fm} shows 
 the EPL feature model. Regarding our design decisions, 
@@ -30,8 +33,12 @@ several classes (\texttt{Value}, \texttt{BinaryExpression}, \texttt{AddExpressio
 \texttt{SubExpression}), and one AHEAD package for each non-mandatory feature (see Figure~\ref{fig:epl-features}). Note 
 that an AHEAD package contains eihter (a) plain Java entities (class or interface) declarations or (b) 
 Java entities refinements. A refinement 
-might refine methods declared in other packages or introduce new attributes or methods 
-in existing classes or interfaces.  
+might override methods declared in other packages or 
+introduce new attributes or methods in existing classes 
+or interfaces. In this simple example, we do not implement any 
+method overriding through class refinements---the refinements 
+only introduce new elements to the \textsc{Base} AHEAD package 
+of Figure~\ref{fig:epl-base}.  
 
 \begin{figure}[htb]
 \centering{
@@ -72,6 +79,11 @@ new attribute (\texttt{operator}) for the \texttt{BinaryExpression} class.
 \caption{Non-mandatory feature implementations of the Expression Product Line}
 \end{figure} 
 
-{\color{red}TODO: discutir o resultado de gerar um produto na EPL}
+In the case we generate a product with  
+a feature selection consisting of 
+\texttt{EPL}, \texttt{value\_type(double)}, 
+and \texttt{pretty\_printer}, we will get 
+a product as shown in Figure~\ref{fig:epl-instance}. 
 
-{\color{red}TODO: talvez combinar essa com a pr\'{o}xima se\c c\~{a}o.}
+
+
