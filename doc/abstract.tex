@@ -1,12 +1,18 @@
 \begin{abstract}
-Specifying a language in an \ac{ITP} is seldom faithful
-to its original pen-and-paper specification. However the process of mechanizing the
-language and type safety proofs might unearth insights for clearer overall specification.
-In the present we discuss the process of extending a mechanization of \textit{\ac{FJ}}
-with \textit{\ac{FFJ}} in \texttt{Coq} which we name as \textit{\ac{FFJ+}} and how that lead us to a
-clearer, unambiguous and equivalent syntax and semantics while keeping the proofs as well as \ac{FJ} extension as simple as possible.
-This is also the first mechanization of a \textit{\ac{FOP}} language to date.
-
+Specifying a language using an \ac{ITP} is seldom faithful
+to its original pen-and-paper specification. However, the process of mechanizing a
+language and type safety proofs might also unearth insights for improving the original 
+specification. In this paper, we detail some design decisions related to our process 
+of first specifying \textit{\ac{FJ}} in \texttt{Coq} and thus evolving 
+such a specification to prove the type system properties of 
+an overhaul version \textit{\ac{FFJ}}---a core-calculus for a family of 
+languages that address variability management in highly configurable systems, 
+such as software product lines (SPLs); which we name as \textit{\ac{FFJ+}}. Indeed, \ac{FFJ+} 
+is the first mechanization of \ac{FFJ}, and as such it might also help researchers to 
+derive proofs about software product line refinements without considering several 
+assumptions about the underlining SPL assets. We believe 
+that the whole process led us to a clearer, unambiguous, and equivalent syntax and semantics of 
+\ac{FFJ}, while keeping the proofs as well as our \ac{FJ} extensions as simple as possible.
 
 \keywords{Language Design, Language Semantics, Java, FOP, Coq}
 \end{abstract}
