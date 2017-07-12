@@ -28,8 +28,9 @@ The idea behind mechanization is to check these proofs with the aid of a compute
 taking full use of automation for the tedious or straightforward steps of the proof.
 
 In this paper, we present an implementation of \ac{FJ} which we extend with \ac{FFJ} using \texttt{Coq}.
-The process of scrutinizing \ac{FFJ} and defining \textit{unambigously} its semantics in \texttt{Coq} 
-lead us to some language specification and implementation improvements. 
+The process of scrutinizing \ac{FFJ} and defining \textit{unambiguously} its semantics in \texttt{Coq} 
+lead us to some language specification and implementation improvements. The biggest change was to review and
+simplify the lookup functions of the refinement table.
 Henceforth, we refer this proposed calculus as \ac{FFJ+} to distinguish it when comparing our implementation to the original \ac{FFJ} design.
 Altogether the improvements proposed in \ac{FFJ+} makes the transition more natural between \ac{FJ} and \ac{FFJ}, 
 simplifying the auxiliary functions used in the language specification as well as the type safety proofs and lemmas. 
