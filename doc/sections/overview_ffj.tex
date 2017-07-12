@@ -7,7 +7,7 @@ introduction of a new feature, that is,
 an existing class can be extended by a class refinement. 
 A class refinement is declared like a conventional class, though 
 preceded by the keyword \texttt{refines}. For example, 
-\texttt{refines class C@feat \{$\dots$\}} refers to a class
+\texttt{refines class C \{$\dots$\}} refers to a class
 refinement that
 \emph{refines} the class \texttt{C}. The same can be achieved 
 for method introduction and modification. Methods refinement,
@@ -18,10 +18,11 @@ method.
 To fully mechanize \ac{FFJ}, we had to disambiguate and enhance 
 the language to some extent that it  deserves the attention of 
 formally documenting these changes. 
-Even though these changes are significant, as discussed in Section~\ref{}, 
-the philosofy of \ac{FFJ}, \ac{FOP}, and Stepwise Refinement are maintained.
+Even though these changes are significant, as discussed in Section~\ref{seq:ffj}, 
+the philosophy of \ac{FFJ}, \ac{FOP}, and Stepwise Refinement are maintained.
 Due to the lack of space we will not provide neither the formal definition 
-of \ac{FJ} nor \ac{FFJ}. 
+of \ac{FJ} nor \ac{FFJ}, but we refer the reader the original formalization of \ac{FJ}~\cite{igarashi_featherweight_2001}.
+ and \ac{FFJ}~\cite{apel_feature_2008}
 In \ac{FFJ}, as well as in \ac{FFJ+}, classes can be added and 
 modified by the introduction of a new feature (as discussed in the previous section).
 An existing class can be extended by a class refinement. A class refinement is declared like a class but
@@ -39,7 +40,7 @@ seen as an information gathered by the parser to build the AST, and thus
 the actual code expressed using the concrete syntax of this language 
 might not have these annotations.
 
-In addition, an \ac{FFJ+} program have a table with every class 
+In addition, an \ac{FFJ+} program has a table with every class 
 declaration (\textsf{CT}) and another table with every class refinement (\textsf{RT}).
 We make this distinction to simplify the extension from \ac{FJ} in \texttt{Coq}, since 
 with this decision we eliminate the need to match whether a class in the table 
@@ -53,12 +54,12 @@ refinement declaration. This is no longer necessary in \ac{FFJ+}, since
 that information is already encoded in the syntax.
 
 Finally, in the original definition of \ac{FFJ}, the lookup functions are 
-rather sloppy. Accordingly, we propose a very different approach
+somewhat circumvoluted. Accordingly, we propose a very different approach
 for them, with the aim as been not only as formal and simple as possible, 
 but also easy to evolve from our mechanized version of \ac{FJ}. 
 To this end, we eliminate the need for reverse field lookup, reverse method lookup, 
 and the refinement relation. A formal description with all these changes 
-will be given in Section~\ref{subsec:lookup}. Note that, we were only 
+is given in Section~\ref{subsec:lookup}. Note that, we were only 
 able to conceive these improvements while formalizing \ac{FFJ+} in 
 \texttt{Coq}. 
 
