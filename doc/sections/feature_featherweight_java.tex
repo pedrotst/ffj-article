@@ -2,9 +2,9 @@
 
 \subsection{Syntax}
 The Syntax of \ac{FFJ} is a straightfoward \ac{FOP} extension of \ac{FJ}. Due to the lack
-of space we will not present the formal definition \ac{FJ} nor \ac{FFJ}, but instead we follow
+of space we do not present the formal definition \ac{FJ} nor \ac{FFJ}, but instead we follow
 the same scheme of the \ac{FFJ} original definition in \cite{apel_feature_2008} and present
-the modified rules from \ac{FFJ} to \ac{FFJ+} highlited with \hlmod{shaded yellow boxes} 
+the modified rules from \ac{FFJ} to \ac{FFJ+} highlighted with \hlmod{shaded yellow boxes} 
 and new rules highlighted by \hlnew{shaded purple boxes}. Also notice that the sucessor and 
 the refinement relations were simply dropped for being unecessary by now.
 
@@ -48,9 +48,9 @@ the refinement relations were simply dropped for being unecessary by now.
 
 
 The syntax of \ac{FFJ} constructs is given at Table~\ref{abstractsyntax}. The metavariables
-\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} and \texttt{E} ranges over class names, \texttt{f} and \texttt{g} ranges over
+\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} and \texttt{E} ranges over class names, \texttt{f} and \texttt{g} range over
 field names; \texttt{m} ranges method name; \texttt{x} ranges over variable, \texttt{v} ranges over
-values, \texttt{feat} ranges over feature names. We assume a that the set of variables includes the special variable \texttt{this}, which
+values, \texttt{feat} ranges over feature names. We assume that the set of variables includes the special variable \texttt{this}, which
 cannot be used as the name of an argument of a method.
 
 We write \texttt{\=f} as a shorthand for a possible empty sequence \texttt{f\textsubscript1}, \dots, \texttt{f\textsubscript{n}} 
@@ -63,31 +63,29 @@ We write empty sequence as $\bullet$.
 
 A class declaration \texttt{class\ C~extends~D\ \{\={C} \={f}; K \={M}\}} 
 introduces a class \texttt{C} with superclass \texttt{D}. This class has fields \texttt{\=f}
-of type \texttt{C}, a constructor \texttt{K} and methdos \texttt{\=M}. The fields of class \texttt{C}
+of type \texttt{\=C}, a constructor \texttt{K} and methods \texttt{\=M}. The fields of the class \texttt{C}
 is \texttt{\=f} added to the fields of its superclass \texttt{D}, all of them must have distinct names.
-Methods, in the other, hand may override another superclass method with the same name.
-Method override in both \ac{FJ} \ac{FFJ} is basically method rewrite. 
-Methods are uniquely identified by its name, i.e. overload is not supported.
-%como nao tem como explicar as fields de class refinement aqui, vamos deixar pra definir tudo com calma somente na
-%sessao de lookup functions
+Methods, on the other hand, may override another superclass method with the same name.
+Method override in both \ac{FJ} and \ac{FFJ} is basically method rewriting. 
+Methods are uniquely identified by its name, i.e. overloading is not supported.
 
 A class refinement \texttt{refines~class~C@feat~\{\={C}~\={f};~KD~\={M}~\={MR}\}}
 introduces a refinement of the class \texttt{C} and belongs to the feature \texttt{feat}. 
 This refinement contains the fields  \texttt{\=f} of type \texttt{\=C}, 
-a constructor refinement \texttt{KR}, methods declarations \texttt{\=M} and method refinements \texttt{\={MR}}.
+a constructor refinement \texttt{KR}, methods declarations \texttt{\=M} and method refinements \mathtt{\overline{MR}}.
 Like class declarations, the fields of a class refinement \texttt{R} are added to the fields of its predecessor, which
 is explained in more detail in Section \ref{subsec:lookup}.
 
 Constructor declaration \texttt{C(\={C}~\={f})\{super(\={f}); this.\={f}=\={f};\}} and a constructor refinement 
-\texttt{refines~C(\={E}~\={h}, \={C}~\={f}) \{original(\={f}); this.\={f}=\={f};\}} introduces a constructor with 
+\texttt{refines~C(\={E}~\={h}, \={C}~\={f}) \{original(\={f}); this.\={f}=\={f};\}} introduce a constructor 
 for the class \texttt{C} with fields \texttt{\=f} of type \texttt{\=C}. The constructor declaration body is simply 
 a list of assignment of the arguments with its correspondent field preceded by calling its superclass constructor with the correspondent arguments.
 The constructor refinement only differs from constructor declaration that instead of calling the superclass constructor
 it will call its predecessor constructor (denoted by \texttt{original}).
 
 Method declaration \texttt{C~m~(\={C}~\={x})\ \{return~e;\}} and method refinement \texttt{refines C~m~(\={C}~\={x})\ \{return~e;\}} 
-introduces a method \texttt{m} of return type \texttt{C} with arguments \texttt{\={C}~\={x}} and body \texttt{e}.
-Method declarations should only appear inside a class declaration or a class refinement, whereas method refinement should only appear
+introduce a method \texttt{m} of return type \texttt{C} with arguments \texttt{\={C}~\={x}} and body \texttt{e}.
+Method declarations can only appear inside a class declarations or refinement, whereas method refinement should only appear
 inside a class refinement. There is such a distinction between method declaration and method refinement for allowing the type checker
 to recognize the difference between method refinement and inadvertent overriding/replacement.
 
@@ -123,12 +121,13 @@ The \textsf{CT} is expected to satisfy some sanity conditions:
 		\inferrule{\texttt{class~C~extends~D~\{~\ldots~\}}}
 		{\texttt{C~<:~D}} \\
 	\end{tabular}
+    \vspace*{2pt}
     \caption{Subtype Relation}
     \label{table:sub_pred}
 \end{table}
 
 
-In Overhaul \ac{FFJ} we fetch the refinement precedence via its position in the \textsf{RT}, i.e.
+In \ac{FFJ+} we fetch the refinement precedence via its position in the \textsf{RT}, i.e.
 if a refinement of a class appears first in the \textsf{RT} it will be applied first. 
 These functions to navigate the \textsf{RT} are all defined in Table \ref{table:refinement}
     
@@ -192,19 +191,19 @@ to the first, looking for a given method or field.
 
 With this in hand we can define the actual lookup functions $fields$, $mtypes$ and $mbody$.
 They are taken directly from \ac{FJ} definition, with a new hypothesis and an extra rule.
-The extra rule and hypothesis makes reference to dealing dealing with the refinements, this is necessary
+The extra rule and hypothesis makes reference to dealing with the refinements. This is necessary
 to make the proofs easier to maintain, since all we need to do is to provide a few acceptance lemmas
 about these new lookup functions which we name $fields_R$, $mtype_R$ and $mbody_R$.
 
 $fields_R$ simply retrieves the fields of all refinements up to that point in the refinement chain.
 
-$mtype_R$ and $mbody_R$ tries to find the last introduction to a method, and retrieves it's type or body.
+$mtype_R$ and $mbody_R$ tries to find the last introduction to a method, and retrieves its type or body.
 Notice that these two definitions greatly differs from \ac{FFJ} to \ac{FFJ+}. In \ac{FFJ} $mtype$ would
 retrieve the typing of the first method introduction, whereas in \ac{FFJ+} it will retrieve the
-type of the last method refinement, and only later we define the rules for guaranting that the
+type of the last method refinement, and only later we define the rules for guarantying that the
 refinement always has the same type of the method declaration. This was made to greatly simplify
 the proof that states that if a method has $mtype$ then it also has a $mbody$, since both 
-functions follows the same structure the proof is straightfoward.
+functions follows the same structure the proof is straightforward.
 
 
 \begin{table}[ht!]
@@ -509,17 +508,17 @@ The typing judgment for expressions has the form $\Gamma \vdash e: C$, read ``in
 the environment $\Gamma$, expression $e$ has type $C$''.
 
 \subsection{Computation}
-The reduction relation is of ther form $e \rightarrow e'$, read ``expression
+The reduction relation is of the form $e \rightarrow e'$, read ``expression
 $e$ reduces to expression $e'$ in one step'', We write $\rightarrow *$ for the
-reflexisive and transitive closure of $\rightarrow$.
+reflexive and transitive closure of $\rightarrow$.
 
 The reduction rules are given in~\ref{expcomput}. There are three reduction
-rules, one for field acess, one for method invocation, and one for casting.
+rules, one for field access, one for method invocation, and one for casting.
 These were already explained above. We write $[\bar{d}=\bar{x}, e=y]e_0$ for
 the result of replacing $x_1$ by $d_1$, $x_2$ by $d_2, \dots, x_n$ by $d_n$, and $y$ by $e$ in
 the expression $e_0$.
 
-Notice again that with the absense of side effects, there is no need of stack
+Notice again that with the absence of side effects, there is no need of stack
 or heap for variable binding. 
 
 The reduction rules may be applied at any point in an expression, so we also
