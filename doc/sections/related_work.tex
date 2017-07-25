@@ -1,2 +1,14 @@
 \section{Related Work}\label{seq:related}
-FFJ\cite{prehofer_feature-oriented_1997}. LFJ\cite{delaware_machine-checked_2009}. SPL refinement\cite{ferreira_making_2012}.
+Not much effort have been made in the effort to mechanize a \ac{FOP} type system.
+
+In \ac{LFJ}~\cite{delaware_machine-checked_2009} Delaware \textit{et al.}
+also provides a mechanization of a \ac{FOP} type system using Coq. 
+However, \ac{LFJ} is developed upon \ac{LJ}. In contrast, \ac{FFJ} is built upon \ac{FJ}.
+Even though \ac{LJ} is more expressive than \ac{FJ}, it is also more complex,
+which makes \ac{LFJ} type system a lot more complex than \ac{FFJ}. This complexity
+shall add a lot more of complexity for extensionality in the code.
+
+Sven~\textit{et al.}~\cite{prehofer_feature-oriented_1997} proposes enhancements for \ac{FFJ},
+providing a proof for type safe for feature-oriented product lines yet they did not mechanize \ac{FFJ}.
+In this paper, we diverge from these enhancements to make the calculus and, proofs and the mechanization simpler, as discussed
+in \ref{seq:impl}.
