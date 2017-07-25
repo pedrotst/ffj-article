@@ -229,3 +229,49 @@ month={June}}
 	pages = {77--91},
 	file = {Snapshot:D\:\\Users\\x01205375163\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\cxvkzn0h.default-1473962059047\\zotero\\storage\\3GND2ZIS\\978-3-642-15579-6_6.html:text/html}
 }
+
+
+@inproceedings{delaware_machine-checked_2009,
+	address = {New York, NY, USA},
+	series = {{FOAL} '09},
+	title = {A {Machine}-checked {Model} of {Safe} {Composition}},
+	isbn = {978-1-60558-452-2},
+	url = {http://doi.acm.org/10.1145/1509837.1509846},
+	doi = {10.1145/1509837.1509846},
+	abstract = {Programs of a software product line can be synthesized by composing features which implement some unit of program functionality. In most product lines, only some combination of features are meaningful; feature models express the high-level domain constraints that govern feature compatibility. Product line developers also face the problem of safe composition -- whether every product allowed by a feature model is type-safe when compiled and run. To study the problem of safe composition, we present Lightweight Feature Java (LFJ), an extension of Lightweight Java with support for features. We define a constraint-based type system for LFJ and prove its soundness using a full formalization of LFJ in Coq. In LFJ, soundness means that any composition of features that satisfies the typing constraints will generate a well-formed LJ program. If the constraints of a feature model imply these typing constraints then all programs allowed by the feature model are type-safe.},
+	urldate = {2017-07-25},
+	booktitle = {Proceedings of the 2009 {Workshop} on {Foundations} of {Aspect}-oriented {Languages}},
+	publisher = {ACM},
+	author = {Delaware, Benjamin and Cook, William and Batory, Don},
+	year = {2009},
+	keywords = {feature model, product lines, type safety},
+	pages = {31--35}
+}
+
+
+@inproceedings{ferreira_making_2012,
+	title = {Making {Software} {Product} {Line} {Evolution} {Safer}},
+	doi = {10.1109/SBCARS.2012.18},
+	abstract = {Developers evolve software product lines (SPLs) manually or using typical program refactoring tools. However, when evolving a product line to introduce new features or to improve its design, it is important to make sure that the behavior of existing products is not affected. Typical program refactorings cannot guarantee that because the SPL context goes beyond code and other kinds of core assets, and involves additional artifacts such as feature models and configuration knowledge. Besides that, in a SPL we typically have to deal with a set of possibly alternative assets that do not constitute a well-formed program. As a result, manual changes and existing program refactoring tools may introduce behavioral changes or invalidate existing product configurations. To avoid that, we propose approaches and implement tools for making product line evolution safer; these tools check whether SPL transformations are refinements in the sense that they preserve the behavior of the original SPL products. They implement different and practical approximations of a formal definition of SPL refinement. We evaluate the approaches in concrete SPL evolution scenarios where existing product's behavior must be preserved. However, our tools found that some transformations introduced behavioral changes. Moreover, we evaluate defective refinements, and the toolset detects the behavioral changes.},
+	booktitle = {2012 {Sixth} {Brazilian} {Symposium} on {Software} {Components}, {Architectures} and {Reuse}},
+	author = {Ferreira, F. and Borba, P. and Soares, G. and Gheyi, R.},
+	month = sep,
+	year = {2012},
+	keywords = {approximation theory, Bluetooth, checking tools, defective refinement evaluation, design improvement, formal definition approximations, formal verification, Frequency modulation, Games, Internet, Optimization, product configurations, Productivity, product line evolution, program diagnostics, program refactoring tools, refactoring, refinement, safe evolution, safe software product line evolution, Software, software behavioral changes, software development management, software maintenance, software process improvement, software product lines, software tools, SPL evolution, SPL refinement, SPL transformations},
+	pages = {21--30},
+	file = {IEEE Xplore Abstract Record:C\:\\Users\\pedroabreu\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\lhxyz6dj.default\\zotero\\storage\\TP4N9NFH\\6394971.html:text/html}
+}
+
+
+@inproceedings{kastner_type-checking_2008,
+	title = {Type-{Checking} {Software} {Product} {Lines} - {A} {Formal} {Approach}},
+	doi = {10.1109/ASE.2008.36},
+	abstract = {A software product line (SPL) is an efficient means to generate a family of program variants for a domain from a single code base. However, because of the potentially high number of possible program variants, it is difficult to test all variants and ensure properties like type-safety for the entire SPL. While first steps to type-check an entire SPL have been taken, they are informal and incomplete. In this paper, we extend the Featherweight Java (FJ) calculus with feature annotations to be used for SPLs. By extending FJ's type system, we guarantee that - given a well-typed SPL - all possible program variants are well- typed as well. We show how results from this formalization reflect and help implementing our own language-independent SPL tool CIDE.},
+	booktitle = {2008 23rd {IEEE}/{ACM} {International} {Conference} on {Automated} {Software} {Engineering}},
+	author = {Kastner, C. and Apel, S.},
+	month = sep,
+	year = {2008},
+	keywords = {Calculus, Computer science, Featherweight Java calculus, feature annotation, formal approach, Gears, Informatics, Java, Mathematics, process algebra, program variants, software product lines, Spatial databases, Testing, Transaction databases, type checking, type safety, type system, type theory},
+	pages = {258--267},
+	file = {IEEE Xplore Abstract Record:C\:\\Users\\pedroabreu\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\lhxyz6dj.default\\zotero\\storage\\C9G56TKP\\4639329.html:text/html}
+}
