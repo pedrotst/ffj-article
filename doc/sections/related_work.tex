@@ -1,4 +1,35 @@
 \section{Related Work}\label{seq:related}
+
+Several techniques have been proposed to implement
+\emph{high configurable systems}. Some of
+them are based on source code annotations, such as
+the \emph{well-known} C pre-processor~\cite{} and Color IDE~\cite{}. Others
+rely on compositional approaches, such as
+Feature-Oriented Programming~\cite{}, Delta-Oriented Programming~\cite{}, 
+and Aspect Oriented Programming~\cite{}. Nevertheless, it is important to
+note that, in high configurable systems (such as software
+product lines), testing and formal verification are considered
+challenging tasks, in particular because, in this context,
+these activities must deal with a potential huge number
+products and also consider not only source code artifacts,
+but also high-level variability assets (such as feature and
+configuration models).
+
+In this scenario, several researchers have explored
+the use of core-calculus for languages that
+support the development of high configurable systems,
+including Delta-oriented Featherweight Java, Feature
+Featherweight Java, and Lightweight Feature Java.
+To the best of our knowledge, the work of Delaware
+et al. was the first to mechanize a core calculus
+of a language designed for high configurable systems (in
+this case, Lightweight Feature Java)~\cite{}. Differently, here in
+this paper we explored the {\bf first mechanization of \acf{FFJ}},
+which, according to Apel et al., is a calculus that
+addresses the essencials aspects of several
+existing implementations of feature-oriented programming
+languages, including FST Composer and AHEAD~\cite{}. 
+
 Not much effort have been made in the effort to mechanize a \ac{FOP} type system.
 
 In \ac{LFJ}~\cite{delaware_machine-checked_2009} Delaware \textit{et al.}
