@@ -425,7 +425,7 @@ Introduce in~\ref{table:introduce} function checks if a method was not yet decla
         \rowcolor{shpurple}
         \inferrule{\mathtt{\bar{x}: \bar{C}, this: C~\vdash t_0 : E_0\qquad E_0 <: C_0 \qquad R~=~C@feat} \\ \\
                 \mathtt{RT(R)~=~refines~R~\{\dots~\bar{M},~\overline{MR}~\dots\} \qquad m\notin\bar{M} \qquad m\in\overline{MR}}\\ \\
-                \mathtt{\mathnormal{override_R}(m, R, \bar{C}\rightarrow C) \qquad \mathnormal{introduce}~m~R}}
+                \mathtt{\mathnormal{override_R}(m, R, \bar{C}\rightarrow C)}}
             {\mathtt{refines~C_0~m~(\bar{C}~\bar{x})\{return~t_0;\}~OK~in~R}}\\\\
 
     \end{tabular}
