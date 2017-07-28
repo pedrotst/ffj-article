@@ -351,9 +351,9 @@ functions follows the same structure the proof is straightforward.
     \caption{Method Body lookup}
 \end{table}
 
-Override function in~\ref{table:override} inductively guaranties that a method refinement respects the 
-type a method was introduced for the first time, which can be in a super class or in a previous
-refinement.
+Override function in \Cref{table:override} inductively guaranties that a method 
+or method refinement respects the type of the method was introduced for the first time, 
+which can be in a super class or in a previous refinement.
 
 \begin{table}
 	\centering
@@ -429,7 +429,7 @@ Introduce in~\ref{table:introduce} function checks if a method was not yet decla
             {\mathtt{refines~C_0~m~(\bar{C}~\bar{x})\{return~t_0;\}~OK~in~R}}\\\\
 
     \end{tabular}
-\label{typing2}
+\label{method-typing}
 \caption{Method typing in \ac{FFJ+}}
 \end{table}
 
@@ -450,8 +450,15 @@ Introduce in~\ref{table:introduce} function checks if a method was not yet decla
 \label{table:classtyping}
 \end{table}
 
-Every class and refinement of a \ac{FFJ+} program is assumed to respect the well-formednes rules
-defined in~\ref{table:classtyping}.
+Every class and refinement of a \gls{FFJ+} program is assumed to respect the well-formednes rules
+defined in \Cref{table:classtyping}.
+A well formed class have only well formed methods. And a well formed class refinement
+only have well formed methods and well formed method refinements.
+A well formed method and method refinement must has a closed expression \texttt{e} under 
+the variables of the function parameters. \texttt{e} must a subtype of the return
+type of the function. And if a function with the same name was declared before, 
+it must have the same name. If a method refinement is declared in a method refinement,
+this rule guarantess that it will override the superclass accordingly.
 
 \subsection{Typing and Reduction}
 The typing and computation rules for expressions are elided since are the same as \ac{FJ}. An environment
