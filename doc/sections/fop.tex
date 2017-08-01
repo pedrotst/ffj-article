@@ -41,38 +41,14 @@ method overriding through class refinements---the refinements
 only introduce new elements to the \textsc{Base} AHEAD package 
 of Figure~\ref{fig:epl-base}.  
 
-\begin{lstlisting}[language=Java, frame=single, numbers=left, basicstyle=\footnotesize]
-class Expr extends Object {
-    Expr() { super(); }
-}
-
-class Add extends Expr {
-    Expr a; Expr b;
-    Add(Expr a, Expr b) {super(); this.a=a; this.b=b;}
-}
-
-class Sub extends Expr {
-    Expr a; Expr b;
-    Sub(Expr a, Expr b) {super(); this.a=a; this.b=b;}
-}
-
-refines class Expr@Eval {
-    refines Expr() { original(); }
-    int eval() {return 0;}
-}
-
-refines class Add@Eval {
-    refines Add(Expr a, Expr b){original(a,b);}
-    refines int eval() {return this.a.eval() + this.b.eval();}
-}
-
-
-refines class Sub@Eval {
-    refines Add(Expr a, Expr b){original(a,b);}
-    refines int eval() {return this.a.eval() - this.b.eval();}
-}
-
-\end{lstlisting}
+ 
+\begin{figure}[htb]
+    \centering{
+        \includegraphics[scale=0.5]{doc/images/base.pdf}
+    }
+    \label{fig:epl-base}
+    \caption{The \textsc{base} package of the Expression Product Line}
+\end{figure} 
 
 The details of the EPL AHEAD non-mandatory feature packages are as follows. 
 
