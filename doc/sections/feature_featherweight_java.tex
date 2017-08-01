@@ -1,10 +1,10 @@
 \section{Overhaul Feature Featherweight Java}\label{seq:ffj}
 
 \subsection{Syntax}
-The Syntax of \ac{FFJ} is a straightfoward \ac{FOP} extension of \ac{FJ}. Due to the lack
-of space we do not present the formal definition \ac{FJ} nor \ac{FFJ}, but instead we follow
-the same scheme of the \ac{FFJ} original definition in \cite{apel_feature_2008} and present
-the modified rules from \ac{FFJ} to \ac{FFJ+} highlighted with \hlmod{shaded yellow boxes} 
+\ac{FFJ} syntax is a straightfoward \ac{FOP} extension of \ac{FJ}. Due to the lack
+of space we do not present the formal definitions for \ac{FJ} and \ac{FFJ}, but instead we follow
+the same scheme from \ac{FFJ} original definition in \cite{apel_feature_2008} and present
+the modified rules from \ac{FFJ} to \ac{FFJ+} highlighted with \hlmod{shaded yellow boxes}, 
 and new rules highlighted by \hlnew{shaded purple boxes}. Also notice that the sucessor and 
 the refinement relations were simply dropped for being unecessary by now.
 
@@ -47,14 +47,14 @@ the refinement relations were simply dropped for being unecessary by now.
 %\end{center}
 
 
-The syntax of \ac{FFJ+} constructs is given at Table~\ref{abstractsyntax}. The metavariables
-\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} and \texttt{E} ranges over class names, \texttt{f} and \texttt{g} range over
-field names; \texttt{m} ranges method name; \texttt{x} ranges over variable, \texttt{v} ranges over
+The syntax of \ac{FFJ+} constructs is given at Table~\ref{abstractsyntax}. Metavariables
+\texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} and \texttt{E} range over class names, \texttt{f} and \texttt{g} range over
+field names; \texttt{m} stands for method name; \texttt{x} ranges over variable, \texttt{v} ranges over
 values, \texttt{feat} ranges over feature names. We assume that the set of variables includes the special variable \texttt{this}, which
 cannot be used as the name of an argument of a method.
 
 We write \texttt{\=f} as a shorthand for a possible empty sequence \texttt{f\textsubscript1}, \dots, \texttt{f\textsubscript{n}} 
-and similarly for \texttt{\=C}, \texttt{\=x}, \texttt{\=e}, etc. We abbreviate the operations on pairs of sequences
+and similarly for other metavariables, such as \texttt{\=C}, \texttt{\=x}, \texttt{\=e}. We abbreviate the operations on sequence pairs
 ``\texttt{\=C~\=f}'' for ``\texttt{C\textsubscript1~f\textsubscript1},\dots, \texttt{C\textsubscript{n}~f\textsubscript{n}}''
 and ``\texttt{this.\=f=\=f;}'' as a shorthand for 
 ``\texttt{this.\=f\textsubscript1=\=f\textsubscript1;} \dots, \texttt{this.\=f\textsubscript{n}=\=f\textsubscript{n};}''.
@@ -63,42 +63,43 @@ We write empty sequence as $\bullet$.
 
 A class declaration \texttt{class\ C~extends~D\ \{\={C} \={f}; K \={M}\}} 
 introduces a class \texttt{C} with superclass \texttt{D}. This class has fields \texttt{\=f}
-of type \texttt{\=C}, a constructor \texttt{K} and methods \texttt{\=M}. The fields of the class \texttt{C}
-is \texttt{\=f} added to the fields of its superclass \texttt{D}, all of them must have distinct names.
+of type \texttt{\=C}, a constructor \texttt{K} and methods \texttt{\=M}. The class fields (\texttt{\=f}) 
+add to the fields of the superclass \texttt{D}, and all of them must have distinct names.
 Methods, on the other hand, may override another superclass method with the same name.
 Method override in both \ac{FFJ} and \ac{FFJ+} is basically method rewriting. 
 Methods are uniquely identified by its name, i.e. overloading is not supported.
 
 A class refinement \texttt{refines~class~C@feat~\{\={C}~\={f};~KD~\={M}~\={MR}\}}
-introduces a refinement of the class \texttt{C} and belongs to the feature \texttt{feat}. 
-This refinement contains the fields  \texttt{\=f} of type \texttt{\=C}, 
+introduces a refinement of the \texttt{C} class, belonging to the feature \texttt{feat}. 
+This refinement contains the fields \texttt{\=f} of type \texttt{\=C}, 
 a constructor refinement \texttt{KR}, methods declarations \texttt{\=M} and method refinements $\overline{\texttt{MR}}$.
 Like class declarations, the fields of a class refinement \texttt{R} are added to the fields of its predecessor, which
-is explained in more detail in Section \ref{subsec:lookup}.
+we explain in more detail in Section \ref{subsec:lookup}.
 
 Constructor declaration \texttt{C(\={C}~\={f})\{super(\={f}); this.\={f}=\={f};\}} and a constructor refinement 
-\texttt{refines~C(\={E}~\={h}, \={C}~\={f}) \{original(\={f}); this.\={f}=\={f};\}} introduce a constructor 
-for the class \texttt{C} with fields \texttt{\=f} of type \texttt{\=C}. The constructor declaration body is simply 
-a list of assignment of the arguments with its correspondent field preceded by calling its superclass constructor with the correspondent arguments.
-The constructor refinement only differs from constructor declaration that instead of calling the superclass constructor
-it will call its predecessor constructor (denoted by \texttt{original}).
+\texttt{refines~C(\={E}~\={h}, \={C}~\={f}) \{original(\={f}); this.\={f}=\={f};\}} introduce constructors 
+for the class \texttt{C}. The constructor declaration body is simply 
+a list of assignment of the arguments with its correspondent field preceded by calling 
+its superclass constructor with the corresponding arguments.
+Constructor refinement only differs from constructor declaration by calling its predecessor constructor (denoted by \texttt{original}), 
+instead of the superclass constructor.
 
 Method declaration \texttt{C~m~(\={C}~\={x})\ \{return~e;\}} and method refinement \texttt{refines C~m~(\={C}~\={x})\ \{return~e;\}} 
 introduce a method \texttt{m} of return type \texttt{C} with arguments \texttt{\={C}~\={x}} and body \texttt{e}.
-Method declarations can only appear inside a class declarations or refinement, whereas method refinement should only appear
-inside a class refinement. There is such a distinction between method declaration and method refinement for allowing the type checker
+Method declarations can only appear inside a class declaration or refinement, whereas method refinement should only appear
+inside a class refinement. This distinction allows the type checker
 to recognize the difference between method refinement and inadvertent overriding/replacement.
 
 A class table \textsf{CT} is a mapping from class names \texttt{C} to class declarations \texttt{CD}.
 A refinement table \textsf{RT} is a mapping from refinement name \texttt{C@feat} to refinement declarations.
 An \ac{FFJ} program consists of a triple (\textsf{CT}, \textsf{RT}, \texttt{e}) of a class table, a refinement table
-and an expression. Throughout the rest of the paper the \textsf{CT} and the RT are assumed to be always fixed to lighten the notation.
+and an expression. Throughout the rest of the paper the \textsf{CT} and the \textsf{RT} are assumed to be always fixed to lighten the notation.
 
 \subsection{Lookup Functions}\label{subsec:lookup}
 
-In \ac{FFJ} as well as in \ac{FJ} types are classes and classes have a subclass relation defined by the syntax of class declaration.
-To navigate this subclass relation in the \textsf{CT}, the auxiliary operator \texttt{<:} is given in Table \ref{table:sub_pred}, this operator is 
-the reflexive and transitive closure of the subclass relation.
+In \ac{FFJ}, as well as in \ac{FJ}, types are classes and classes have a subclass relation defined by the syntax of class declaration.
+To navigate this subclass relation in the \textsf{CT}, the auxiliary operator \texttt{<:} is given in Table \ref{table:sub_pred}. 
+This operator is the reflexive and transitive closure of the subclass relation.
 
 The \textsf{CT} is expected to satisfy some sanity conditions:
 \begin{itemize}
@@ -128,19 +129,17 @@ The \textsf{CT} is expected to satisfy some sanity conditions:
 
 
 In \ac{FFJ+} we fetch the refinement precedence via its position in the \textsf{RT}, i.e.
-if a refinement of a class appears first in the \textsf{RT} it will be applied first. 
-These functions to navigate the \textsf{RT} are all defined in Table \ref{table:refinement}
+if a refinement of a class appears first in the \textsf{RT} it is applied first. 
+Table \ref{table:refinement} defines the functions to navigate the \textsf{RT}.
     
-First we have the function $class\_name$ which retrieves the name of a class refinement.
-
-Next we define the function $refinements\_of~\texttt{C}$ to retrieve the refinements of 
+First, we have the $class\_name$ function, which retrieves the name of a class refinement.
+Next, we define the $refinements\_of~\texttt{C}$ function, to retrieve the refinements of 
 a given class in the same order as they were introduced in the \textsf{RT}.
 
-To navigate the precedence we define the \textit{pred} and the \textit{last} functions.
+To navigate the precedence, we define the \textit{pred} and \textit{last} functions.
 The \textit{pred} function will get a class refinement as an argument,
 filter refinements of the same class of \texttt{R} as \texttt{\=R}, fetch the $index$ $n$ of \texttt{R} in \texttt{\=R} 
-and return the element \texttt{P} at the position $n-1$ in \texttt{\=R} (denoted by the $get$ function). Notice that \textit{pred} is a partial function
-because it is not defined if the a refinement is the first refinement.
+and return the element \texttt{P} at the position $n-1$ in \texttt{\=R} (denoted by the $get$ function). Notice that \textit{pred} is a partial function because it is not defined if the refinement is the first refinement.
 
 The \textit{last} function retrieves the last refinement of a given class \texttt{C}.
 This is needed because in \ac{FFJ+} we navigate the refinement chain backwards, from the last refinement
@@ -189,22 +188,20 @@ to the first, looking for a given method or field.
     \label{table:refinement}
 \end{table}
 
-With this in hand we can define the actual lookup functions $fields$, $mtypes$ and $mbody$.
+Based on such functions, we can define the actual lookup functions $fields$, $mtypes$ and $mbody$.
 They are taken directly from \ac{FFJ} definition, with a new hypothesis and an extra rule.
-The extra rule and hypothesis makes reference to dealing with the refinements. This is necessary
-to make the proofs easier to maintain, since all we need to do is to provide a few acceptance lemmas
-about these new lookup functions which we name $fields_R$, $mtype_R$ and $mbody_R$.
+The extra rule and hypothesis make reference to dealing with the refinements. This is useful
+for improving proof maintainability, since all we need to do is to provide acceptance lemmas
+about the new lookup functions, which we name $fields_R$, $mtype_R$ and $mbody_R$.
 
 $fields_R$ simply retrieves the fields of all refinements up to that point in the refinement chain.
-
-$mtype_R$ and $mbody_R$ tries to find the last introduction to a method, and retrieves its type or body.
-Notice that these two definitions greatly differs from \ac{FFJ} to \ac{FFJ+}. In \ac{FFJ} $mtype$ would
-retrieve the typing of the first method introduction, whereas in \ac{FFJ+} it will retrieve the
-type of the last method refinement, and only later we define the rules for guarantying that the
-refinement always has the same type of the method declaration. This was made to greatly simplify
-the proof that states that if a method has $mtype$ then it also has a $mbody$, since both 
-functions follows the same structure the proof is straightforward.
-
+$mtype_R$ and $mbody_R$ try to find the last introduction to a method, and retrieves its type or body.
+Notice that these two definitions greatly differ from \ac{FFJ}. Originally, $mtype$ 
+retrieves the typing of the first method introduction, whereas in \ac{FFJ+} it retrieves the
+type of the last method refinement, and only later we define the rules for guaranteeing that the
+refinement always has the same type of the method declaration. This was made to simplify
+the proof that states that if a method has $mtype$ then it also has a $mbody$. Since both 
+functions follow the same structure, the proof is straightforward.
 
 \begin{table}[ht!]
 	\centering
@@ -351,9 +348,9 @@ functions follows the same structure the proof is straightforward.
     \caption{Method Body lookup}
 \end{table}
 
-Override function in \Cref{table:override} inductively guaranties that a method 
-or method refinement respects the type of the method was introduced for the first time, 
-which can be in a super class or in a previous refinement.
+The override function in Table \Cref{table:override} inductively guarantees that a method 
+or method refinement uses the same type as the first introduced method, 
+which can be located in a super class or in a previous refinement.
 
 \begin{table}
 	\centering
@@ -387,7 +384,7 @@ which can be in a super class or in a previous refinement.
     \label{table:override}
 \end{table}
 
-Introduce in~\ref{table:introduce} function checks if a method was not yet declared earlier in the refinement chain.
+Introduce (Table~\ref{table:introduce}) checks if a method was not yet declared in the refinement chain.
 \begin{table}
 	\centering
 	\begin{tabular}{c}
@@ -450,19 +447,19 @@ Introduce in~\ref{table:introduce} function checks if a method was not yet decla
 \label{table:classtyping}
 \end{table}
 
-Every class and refinement of a \gls{FFJ+} program is assumed to respect the well-formednes rules
+Every class and refinement of a \gls{FFJ+} program is assumed to respect the well-formedness rules
 defined in \Cref{table:classtyping}.
-A well formed class have only well formed methods. And a well formed class refinement
-only have well formed methods and well formed method refinements.
-A well formed method and method refinement must has a closed expression \texttt{e} under 
+A well-formed class has only well-formed methods. Similarly, a well-formed class refinement
+only has well-formed methods and well-formed method refinements.
+A well-formed method and method refinement must have a closed expression \texttt{e} under 
 the variables of the function parameters. \texttt{e} must a subtype of the return
-type of the function. And if a function with the same name was declared before, 
+type of the function. Also, if a function with the same name was declared before, 
 it must have the same name. If a method refinement is declared in a method refinement,
-this rule guarantess that it will override the superclass accordingly.
+this rule guarantees that it overrides the superclass accordingly.
 
 \subsection{Typing and Reduction}
-The typing and computation rules for expressions are elided since are the same as \ac{FJ}. An environment
-$\Gamma$ is a finite mapping from variables to types, written $\bar{c}:\bar{C}$.
+The typing and computation rules for expressions are elided since they work in the same way as in \ac{FJ}. 
+An environment $\Gamma$ is a finite mapping from variables to types, written $\bar{c}:\bar{C}$.
 The typing judgment for expressions has the form $\Gamma \vdash e: C$, read ``in
 the environment $\Gamma$, expression $e$ has type $C$''.
 
@@ -474,7 +471,5 @@ There are three reduction rules, one for field access, one for method invocation
 We write $[\bar{d}=\bar{x}, e=y]e_0$ for
 the result of replacing $x_1$ by $d_1$, $x_2$ by $d_2, \dots, x_n$ by $d_n$, and $y$ by $e$ in
 the expression $e_0$.
-
 Notice that with the absence of side effects, there is no need of stack
 or heap for variable binding. 
-
