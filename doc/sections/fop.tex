@@ -10,23 +10,24 @@ and thus are orthogonal to the typical object-oriented
 decomposition in terms of class hierarchies. 
 Successful FOP usage scenarios have been reported in the literature 
 for the domains of highly configurable systems and
-software product lines~\cite{}. %TODO Livro do Apel et al?
+software product lines~\cite{apel-splbook}. %TODO Livro do Apel et al?
 FOP has been implemented using both programming 
 language extensions and tooling support, such as 
-Java AHEAD Tool Suite~\cite{batory_feature-oriented_2004} and \textsc{FeatureC++}~\cite{apel_featurec++:_2005}. 
+Java AHEAD Tool Suite~\cite{batory_feature-oriented_2004} 
+and \textsc{FeatureC++}~\cite{apel_featurec++:_2005}. 
 
-\subsection{A Running Example: The Expression Product Line in \ac{FOP}}
+\subsection{A Running Example: The Expression Product Line in AHEAD}
 
 \begin{wrapfigure}{r}{0.45\textwidth}
 \centering
 \includegraphics[scale=0.35]{doc/images/epl_fm}
-\label{fig:epl_fm}
 \caption{EPL feature model} 
+\label{fig:epl_fm}
 \end{wrapfigure} 
 
-
 In this section we illustrate the use of FOP through an AHEAD implementation 
-of a slight adaptation of the Expression Product Line (EPL)~\cite{}---Figure~\ref{fig:epl_fm} shows 
+of a slight adaptation of the Expression Product 
+Line (EPL)~\cite{batory:ecoop2005}---Figure~\ref{fig:epl_fm} shows 
 the EPL feature model. Regarding our design decisions, 
 in this case we implemented the mandatory features using a \textsc{base} AHEAD package (Figure~\ref{fig:epl-base}), which
 declares a class hierarchy involving an interface (\texttt{Expression}) and
@@ -39,18 +40,18 @@ introduce new attributes or methods in existing classes
 or interfaces. In this simple example, we do not implement any 
 method overriding through class refinements---the refinements 
 only introduce new elements to the \textsc{Base} AHEAD package 
-of Figure~\ref{fig:epl-base}.  
+of Figure~\ref{fig:epl-base}. The details of the EPL 
+AHEAD non-mandatory feature packages are as follows. 
 
  
 \begin{figure}[htb]
     \centering{
         \includegraphics[scale=0.5]{doc/images/base.pdf}
     }
-    \label{fig:epl-base}
     \caption{The \textsc{base} package of the Expression Product Line}
+    \label{fig:epl-base}
 \end{figure} 
 
-The details of the EPL AHEAD non-mandatory feature packages are as follows. 
 
 \begin{itemize}
 \item Features \texttt{integer} and {double} refine the \texttt{Value} class of 
@@ -77,15 +78,16 @@ new attribute (\texttt{operator}) for the \texttt{BinaryExpression} class.
 \centering{
 \includegraphics[scale=0.5]{doc/images/features.pdf}
 }
-\label{fig:epl-features}
 \caption{Non-mandatory feature implementations of the Expression Product Line}
+\label{fig:epl-features}
 \end{figure} 
 
-In the case we generate a product with  
+In the case we want to build a product with  
 a feature selection consisting of 
 \texttt{EPL}, \texttt{value\_type(double)}, 
-and \texttt{pretty\_printer}, we will get 
-a product as shown in Figure~\ref{fig:epl-instance}. 
+and \texttt{pretty\_printer}, for instance, AHEAD tool suite 
+generates the corresponding source code 
+by applying the specific refinements. 
 
 
 
